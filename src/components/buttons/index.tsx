@@ -7,7 +7,7 @@ export const FullButton = ({
   isDisabled,
   variant = "primary"
 }: FullButtonI) => {
-  const buttonAnimation = "transition-colors duration-300 ease-in-out";
+  const buttonAnimation = "transition-colors duration-200 ease-in-out";
   const buttonBase = "py-3 px-6 rounded-lg text-base leading-4";
 
   const fullButtonVariants = {

@@ -4,9 +4,9 @@ interface TypographyI {
 }
 
 export interface HeadingI extends TypographyI {
-  variant: "h1" | "h2" | "h3";
+  variant?: "h1" | "h2" | "h3";
 }
 
 export interface TextI extends TypographyI {
-  variant: "body" | "small" | "tiny";
+  variant?: "body" | "small" | "tiny";
 }

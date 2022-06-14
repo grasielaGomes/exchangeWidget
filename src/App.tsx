@@ -1,9 +1,11 @@
 import { FullButton } from "./components/buttons";
+import { DropdowMenu } from "./components/forms/DropdowMenu";
+import { cryptoOptions } from "./components/forms/helpers";
 import { CustomText, Heading } from "./components/typography";
 
 function App() {
   return (
-    <div>
+    <div className="w-1/2 m-auto grid gap-5">
       {/* <p className="text-2xl font-bold">Hello</p> */}
       <Heading color="text-blue-500" variant="h1">
         Hello World
@@ -16,6 +18,11 @@ function App() {
         Label
       </FullButton>
       <FullButton handleClick={() => {}}>Label</FullButton>
+      <DropdowMenu
+        options={cryptoOptions}
+        label="Currency"
+        handleSelect={(value) => console.log(value)}
+      />
     </div>
   );
 }
