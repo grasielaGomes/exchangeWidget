@@ -9,11 +9,9 @@ module.exports = {
         tertiary: "#6581A3",
         dark: "#000000",
         grey: "#9C9C9C",
-        neutral: "#E1E8ED"
+        neutral: "#E1E8ED",
+        disabled: "#AAB8C2",
       },
-      borderRadius: {
-        md: "4px"
-      }
     }
   },
   plugins: [require("@tailwindcss/forms")]
