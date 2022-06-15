@@ -1,9 +1,13 @@
+import { useState } from "react";
+import dayjs from "dayjs";
 import { FullButton } from "./components/buttons";
+import { DatePicker } from "./components/forms/DatePicker";
 import { DropdowMenu } from "./components/forms/DropdowMenu";
 import { cryptoOptions } from "./components/forms/helpers";
 import { CustomText, Heading } from "./components/typography";
 
 function App() {
+  const [date, setDate] = useState(dayjs());
   return (
     <div className="w-1/2 m-auto grid gap-5">
       {/* <p className="text-2xl font-bold">Hello</p> */}
@@ -23,6 +27,7 @@ function App() {
         label="Currency"
         handleSelect={(value) => console.log(value)}
       />
+      <DatePicker selectedDate={date} onChange={setDate} />
     </div>
   );
 }

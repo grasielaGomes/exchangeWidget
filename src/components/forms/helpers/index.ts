@@ -1,4 +1,4 @@
-import { Btc, Eth, Ltc, Xrp } from "../../assets";
+import { Btc, Eth, Ltc, Xrp } from "../../../assets";
 
 export const cryptoOptions = [
   { id: 1, value: "Bitcoin", icon: Btc },
