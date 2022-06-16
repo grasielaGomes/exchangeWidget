@@ -8,5 +8,6 @@ export interface HeadingI extends TypographyI {
 }
 
 export interface TextI extends TypographyI {
+  isBold?: boolean;
   variant?: "body" | "small" | "tiny";
 }

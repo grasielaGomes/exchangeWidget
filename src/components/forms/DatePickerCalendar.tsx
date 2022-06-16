@@ -17,12 +17,29 @@ export const DatePickerCalendar: React.FC<DatePickerCalendarI> = ({
 
   const rows = useMemo(() => getCalendarRows(shownDate), [shownDate]);
 
+  const styles = {
+    container: "flex justify-between my-2 w-[19rem] mx-auto",
+    rows: "w-10 text-center",
+    cells: {
+      container: "flex justify-start gap-1 w-[19rem] mx-auto",
+      button: (isSelected: boolean, isBefore: boolean) =>
+        `cursor-pointer rounded-md w-10 h-10 flex justify-center items-center mb-1 ${
+          isSelected
+            ? "bg-dark text-white"
+            : isBefore
+            ? "bg-neutral2 text-neutral3"
+            : "bg-white border border-dark"
+        }`,
+      text: "leading-0"
+    }
+  };
+
   return (
     <>
-      <div className="flex justify-between my-2 mx-6">
+      <div className={styles.container}>
         {rows[0].map(({ value }, i) => (
-          <div key={i} className="w-10 text-center">
-            <CustomText variant="small" color="text-neutral3">
+          <div key={i} className={styles.rows}>
+            <CustomText variant="small" color="neutral3">
               {value.format("dd")}
             </CustomText>
           </div>
@@ -30,23 +47,17 @@ export const DatePickerCalendar: React.FC<DatePickerCalendarI> = ({
       </div>
 
       {rows.map((cells, rowIndex) => (
-        <div key={rowIndex} className="flex justify-start gap-1 mx-6">
+        <div key={rowIndex} className={styles.cells.container}>
           {cells.map(({ text, value }, i) => {
             const isSelected = value.isSame(selectedDate, "day");
             const isBefore = value.isBefore(selectedDate);
             return (
               <Popover.Button
                 key={`${text} - ${i}`}
-                className={`cursor-pointer rounded-md w-10 h-10 flex justify-center items-center mb-1 ${
-                  isSelected
-                    ? "bg-dark text-white"
-                    : isBefore
-                    ? "bg-neutral2 text-neutral3"
-                    : "bg-white border border-dark"
-                }`}
+                className={styles.cells.button(isSelected, isBefore)}
                 onClick={handleSelectDate(value)}
               >
-                <p className="leading-0"> {text}</p>
+                <p className={styles.cells.text}> {text}</p>
               </Popover.Button>
             );
           })}

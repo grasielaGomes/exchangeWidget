@@ -1,17 +1,19 @@
 import { Fragment, useState } from "react";
 import { Popover, Transition } from "@headlessui/react";
+import dayjs from "dayjs";
+
 import { DatePickerCalendar } from "./DatePickerCalendar";
 import { DatePickerSelector } from "./DatePickerSelector";
 import { DatePickerI } from "./interfaces";
 import { CustomText } from "../typography/CustomText";
 import { Calendar } from "../../assets";
-import dayjs from "dayjs";
 
 const styles = {
   popover: "flex-1 relative",
-  selectButton: "flex-1 w-full border rounded-lg border-neutral h-11",
+  selectButton:
+    "flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
   label: "mb-1",
-  selectButtonContent: "flex items-center justify-around",
+  selectButtonContent: "flex items-center justify-around ",
   panel: "fixed bottom-4 left-[1rem] right-[1rem] z-50",
   calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 "
 };

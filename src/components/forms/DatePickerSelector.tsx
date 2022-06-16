@@ -5,6 +5,19 @@ import { Heading } from "../typography/Heading";
 import { Chevron } from "../../assets";
 import { DatePickerSelectorI } from "./interfaces";
 
+const styles = {
+  container:
+    "flex justify-between items-center mt-4 mx-6 pt-3 w-[19rem] mx-auto",
+  button: "w-10 h-10",
+  leftIcon: "m-auto",
+  rightIcon: "rotate-180 m-auto"
+};
+
+const texts = {
+  leftIconAlt: "preview month icon",
+  rightIconAlt: "next month icon"
+};
+
 export const DatePickerSelector: React.FC<DatePickerSelectorI> = ({
   shownDate,
   setShownDate
@@ -15,29 +28,31 @@ export const DatePickerSelector: React.FC<DatePickerSelectorI> = ({
     };
   };
 
-  const baseButtonStyle = "w-10 h-10";
-
   return (
-    <div className="flex justify-between items-center mt-4 mx-6 pt-3">
+    <div className={styles.container}>
       <button
         type="button"
-        className={baseButtonStyle}
+        className={styles.button}
         onClick={handleIconClick(false)}
       >
-        <img src={Chevron} alt="preview month icon" className="m-auto" />
+        <img
+          src={Chevron}
+          alt={texts.leftIconAlt}
+          className={styles.leftIcon}
+        />
       </button>
 
       <Heading variant="h3">{shownDate.format("MMMM YYYY")}</Heading>
 
       <button
         type="button"
-        className={baseButtonStyle}
+        className={styles.button}
         onClick={handleIconClick(true)}
       >
         <img
           src={Chevron}
-          alt="next month icon"
-          className="rotate-180 m-auto"
+          alt={texts.rightIconAlt}
+          className={styles.rightIcon}
         />
       </button>
     </div>

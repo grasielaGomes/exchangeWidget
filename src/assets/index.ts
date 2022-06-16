@@ -3,6 +3,7 @@ import Btc from './btc.svg';
 import Cad from './cad.svg';
 import Calendar from "./calendar.svg";
 import Chevron from './chevron.svg';
+import Close from './close.svg';
 import Eth from './eth.svg';
 import Eur from './eur.svg';
 import Gbp from './gbp.svg';
@@ -16,6 +17,7 @@ export {
   Cad,
   Calendar,
   Chevron,
+  Close,
   Eth,
   Eur,
   Gbp,

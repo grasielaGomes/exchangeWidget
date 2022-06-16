@@ -9,6 +9,7 @@ export interface ButtonsI {
 }
 
 export interface FullButtonI extends ButtonsI {
+  isFull?: boolean;
   variant?: "primary" | "secondary";
 }
 
