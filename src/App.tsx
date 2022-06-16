@@ -1,6 +1,6 @@
 import { useState } from "react";
 import dayjs from "dayjs";
-import { FullButton } from "./components/buttons";
+import { FullButton } from "./components/buttons/FullButton";
 import { DatePicker } from "./components/forms/DatePicker";
 import { DropdowMenu } from "./components/forms/DropdowMenu";
 import { cryptoOptions } from "./components/forms/helpers";
@@ -15,7 +15,7 @@ function App() {
         Hello World
       </Heading>
       <Heading color="text-zinc-500" variant="h2">
-        Hello World
+        {`Selected date: ${date.format("DD/MM/YYYY")}`}
       </Heading>
       <CustomText variant="tiny">Hello World</CustomText>
       <FullButton handleClick={() => {}} variant="secondary">

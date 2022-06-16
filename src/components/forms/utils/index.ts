@@ -1,4 +1,5 @@
 import { Dayjs } from "dayjs";
+import { CalendarCellI } from "../interfaces";
 
 export function changeDateMonth(date: Dayjs, isNextMonth: boolean): Dayjs {
   // should decrease year
@@ -15,15 +16,9 @@ export function changeDateMonth(date: Dayjs, isNextMonth: boolean): Dayjs {
   return date.add(isNextMonth ? 1 : -1, "month");
 }
 
-// our interface for a single cell
-export interface ICalendarCell {
-  text: string;
-  value: Dayjs;
-}
-
-function getCalendarCells(date: Dayjs): ICalendarCell[] {
+function getCalendarCells(date: Dayjs): CalendarCellI[] {
   const daysInMonth = date.daysInMonth();
-  const calendarCells: ICalendarCell[] = [];
+  const calendarCells: CalendarCellI[] = [];
 
   const prepareCell = (date: Dayjs, dayNumber: number) => {
     return {
@@ -37,8 +32,8 @@ function getCalendarCells(date: Dayjs): ICalendarCell[] {
     calendarCells.push(prepareCell(date, i + 1));
   }
 
-  // how much more we need to add?
-  const cellsToAdd = 35 - daysInMonth;
+  // the calender will show only the days in the current month. To add more, change the first value in equation below
+  const cellsToAdd = daysInMonth - daysInMonth;
 
   // add to start from prev month
   const lastMonth = date.subtract(1, "month");
@@ -55,9 +50,9 @@ function getCalendarCells(date: Dayjs): ICalendarCell[] {
   return calendarCells;
 }
 
-export function getCalendarRows(date: Dayjs): Array<ICalendarCell[]> {
+export function getCalendarRows(date: Dayjs): Array<CalendarCellI[]> {
   const cells = getCalendarCells(date);
-  const rows: Array<ICalendarCell[]> = [];
+  const rows: Array<CalendarCellI[]> = [];
 
   // split one array into chunks
   for (let i = 0; i < cells.length; i += 7) {
@@ -66,3 +61,19 @@ export function getCalendarRows(date: Dayjs): Array<ICalendarCell[]> {
 
   return rows;
 }
+
+export const formatCurrency = (
+  value: string,
+  country: string,
+  currrency: string
+) => {
+  if (value && country && currrency) {
+    const formatter = new Intl.NumberFormat(country, {
+      style: "currency",
+      currency: currrency,
+      minimumFractionDigits: 2
+    });
+    return formatter.format(Number(value));
+  }
+  return value;
+};

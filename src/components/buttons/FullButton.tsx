@@ -5,6 +5,7 @@ export const FullButton = ({
   children,
   handleClick,
   isDisabled,
+  type = "button",
   variant = "primary"
 }: FullButtonI) => {
   const buttonAnimation = "transition-colors duration-200 ease-in-out";
@@ -17,7 +18,7 @@ export const FullButton = ({
 
   return (
     <button
-      type="button"
+      type={type}
       aria-label={ariaLabel}
       disabled={isDisabled}
       onClick={handleClick}

@@ -1,17 +1,12 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
+import { Popover } from '@headlessui/react';
 import { Dayjs } from "dayjs";
 
 import { getCalendarRows } from "./utils";
 import { CustomText } from "../typography";
+import { DatePickerCalendarI } from "./interfaces";
 
-export interface IDatePickerCalendarProps {
-  shownDate: Dayjs;
-  selectedDate: Dayjs;
-
-  onChange: (newDate: Dayjs) => void;
-}
-
-export const DatePickerCalendar: React.FC<IDatePickerCalendarProps> = ({
+export const DatePickerCalendar: React.FC<DatePickerCalendarI> = ({
   shownDate,
   selectedDate,
   onChange
@@ -35,14 +30,14 @@ export const DatePickerCalendar: React.FC<IDatePickerCalendarProps> = ({
       </div>
 
       {rows.map((cells, rowIndex) => (
-        <div key={rowIndex} className="flex justify-between mx-6">
+        <div key={rowIndex} className="flex justify-start gap-1 mx-6">
           {cells.map(({ text, value }, i) => {
             const isSelected = value.isSame(selectedDate, "day");
             const isBefore = value.isBefore(selectedDate);
             return (
-              <div
+              <Popover.Button
                 key={`${text} - ${i}`}
-                className={`rounded-md w-10 h-10 flex justify-center items-center mb-1 ${
+                className={`cursor-pointer rounded-md w-10 h-10 flex justify-center items-center mb-1 ${
                   isSelected
                     ? "bg-dark text-white"
                     : isBefore
@@ -52,7 +47,7 @@ export const DatePickerCalendar: React.FC<IDatePickerCalendarProps> = ({
                 onClick={handleSelectDate(value)}
               >
                 <p className="leading-0"> {text}</p>
-              </div>
+              </Popover.Button>
             );
           })}
         </div>

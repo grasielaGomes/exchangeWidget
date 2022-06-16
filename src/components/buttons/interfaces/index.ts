@@ -5,6 +5,7 @@ export interface ButtonsI {
   children: string | JSX.Element;
   handleClick: React.MouseEventHandler<HTMLButtonElement>;
   isDisabled?: boolean;
+  type?: "button" | "submit" | "reset";
 }
 
 export interface FullButtonI extends ButtonsI {

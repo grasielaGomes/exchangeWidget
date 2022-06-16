@@ -1,16 +1,11 @@
 import React from "react";
-import { Dayjs } from "dayjs";
 
 import { changeDateMonth } from "./utils";
-import { Heading } from "../typography/index";
+import { Heading } from "../typography/Heading";
 import { Chevron } from "../../assets";
+import { DatePickerSelectorI } from "./interfaces";
 
-export interface IDatePickerSelectorProps {
-  shownDate: Dayjs;
-  setShownDate: React.Dispatch<React.SetStateAction<Dayjs>>;
-}
-
-export const DatePickerSelector: React.FC<IDatePickerSelectorProps> = ({
+export const DatePickerSelector: React.FC<DatePickerSelectorI> = ({
   shownDate,
   setShownDate
 }) => {
@@ -20,11 +15,13 @@ export const DatePickerSelector: React.FC<IDatePickerSelectorProps> = ({
     };
   };
 
+  const baseButtonStyle = "w-10 h-10";
+
   return (
-    <div className="flex justify-between items-center mt-4 mx-6">
+    <div className="flex justify-between items-center mt-4 mx-6 pt-3">
       <button
         type="button"
-        className="w-10 h-10"
+        className={baseButtonStyle}
         onClick={handleIconClick(false)}
       >
         <img src={Chevron} alt="preview month icon" className="m-auto" />
@@ -34,7 +31,7 @@ export const DatePickerSelector: React.FC<IDatePickerSelectorProps> = ({
 
       <button
         type="button"
-        className="w-10 h-10"
+        className={baseButtonStyle}
         onClick={handleIconClick(true)}
       >
         <img
