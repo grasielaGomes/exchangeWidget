@@ -1,7 +1,7 @@
 import ArrowDown from './arrow-down.svg';
 import Btc from './btc.svg';
 import Cad from './cad.svg';
-import Calender from './calender.svg';
+import Calendar from "./calendar.svg";
 import Chevron from './chevron.svg';
 import Eth from './eth.svg';
 import Eur from './eur.svg';
@@ -14,7 +14,7 @@ export {
   ArrowDown,
   Btc,
   Cad,
-  Calender,
+  Calendar,
   Chevron,
   Eth,
   Eur,

@@ -21,4 +21,4 @@ export const countries = {
   "CAD": "en-CA"
 }
 
-export const initialOption = { value: "", icon: "", id: "" };
+export const initialOption = { value: "USD", icon: "", id: "" };

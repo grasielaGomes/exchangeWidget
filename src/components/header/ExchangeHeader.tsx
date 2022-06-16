@@ -12,22 +12,41 @@ import { useState } from "react";
 import { CustomText } from "../typography/CustomText";
 import { OptionI } from "../forms/interfaces/index";
 
+const styles = {
+  container: "shadow-3xl px-6 py-12 w-full",
+  content: "md:w-3/5 md:mx-auto",
+  header: "mb-6",
+  bodyContainer: "flex flex-col gap-4 md:flex-row md:items-end",
+  hiddenEqual: "hidden mb-2 md:block",
+  buttonLabelMobile: "md:hidden",
+  buttonLabelDesktop: "hidden md:inline"
+};
+
+const texts = {
+  header: "Exchange",
+  from: "Currency from",
+  to: "Currency to",
+  buttonMobile: "Exchange",
+  buttonDesktop: "Save"
+};
+
 export const ExchangeHeader = () => {
   const [currencyFrom, setCurrencyFrom] = useState<OptionI>(initialOption);
   const [currencyTo, setCurrencyTo] = useState<OptionI>(initialOption);
   const [amountFrom, setAmountFrom] = useState("");
   const [amountTo, setAmountTo] = useState("");
   const [isValidated, setIsValidated] = useState(false);
+
   return (
-    <header className="bg-white shadow-3xl px-6 py-12 w-full">
-      <div className="md:max-w-fit md:mx-auto">
-        <div className="mb-6">
-          <Heading variant="h1">Exchange</Heading>
+    <header className={styles.container}>
+      <div className={styles.content}>
+        <div className={styles.header}>
+          <Heading variant="h1">{texts.header}</Heading>
         </div>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end">
+        <div className={styles.bodyContainer}>
           <DropdowMenu
             options={cryptoOptions}
-            label="Currency from"
+            label={texts.from}
             handleSelect={(value) => setCurrencyFrom(value)}
           />
           <AmountInput
@@ -35,12 +54,12 @@ export const ExchangeHeader = () => {
             hasError={!amountFrom && isValidated}
             initialValue=""
           />
-          <div className="hidden mb-2 md:block">
+          <div className={styles.hiddenEqual}>
             <CustomText>=</CustomText>
           </div>
           <DropdowMenu
             options={currenciesOptions}
-            label="Currency to"
+            label={texts.to}
             handleSelect={(value) => setCurrencyTo(value)}
           />
           <AmountInput
@@ -59,8 +78,8 @@ export const ExchangeHeader = () => {
             type="submit"
           >
             <>
-              <span className="md:hidden">Exchange</span>
-              <span className="hidden md:inline">Save</span>
+              <span className={styles.buttonLabelMobile}>{texts.buttonMobile}</span>
+              <span className={styles.buttonLabelDesktop}>{texts.buttonDesktop}</span>
             </>
           </FullButton>
         </div>

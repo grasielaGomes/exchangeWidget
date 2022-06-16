@@ -9,5 +9,5 @@
 }
 
 body {
-  @apply text-dark;
+  @apply text-dark bg-white;
 }

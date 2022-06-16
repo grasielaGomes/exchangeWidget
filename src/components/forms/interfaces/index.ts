@@ -1,6 +1,4 @@
-
 import type { Dayjs } from "dayjs";
-import { AmountInput } from '../AmountInput';
 
 export interface CalendarCellI {
   text: string;
@@ -8,9 +6,9 @@ export interface CalendarCellI {
 }
 
 export interface OptionI {
+  icon?: string;
   id: string | number;
   value: string;
-  icon?: string;
 }
 
 export interface DropdowMenuI {
@@ -20,19 +18,20 @@ export interface DropdowMenuI {
 }
 
 export interface DatePickerI {
+  label?: string;
+  onChange: (newDate: Dayjs) => void ;
   selectedDate: Dayjs;
-  onChange: (newDate: Dayjs) => void;
 }
 
 export interface DatePickerCalendarI {
-  shownDate: Dayjs;
-  selectedDate: Dayjs;
   onChange: (newDate: Dayjs) => void;
+  selectedDate?: Dayjs;
+  shownDate: Dayjs;
 }
 
 export interface DatePickerSelectorI {
+  setShownDate: (newDate: Dayjs) => void;
   shownDate: Dayjs;
-  setShownDate: React.Dispatch<React.SetStateAction<Dayjs>>;
 }
 
 interface CurrencyI {
