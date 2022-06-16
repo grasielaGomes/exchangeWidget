@@ -62,18 +62,4 @@ export function getCalendarRows(date: Dayjs): Array<CalendarCellI[]> {
   return rows;
 }
 
-export const formatCurrency = (
-  value: string,
-  country: string,
-  currrency: string
-) => {
-  if (value && country && currrency) {
-    const formatter = new Intl.NumberFormat(country, {
-      style: "currency",
-      currency: currrency,
-      minimumFractionDigits: 2
-    });
-    return formatter.format(Number(value));
-  }
-  return value;
-};
+
