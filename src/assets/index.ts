@@ -8,7 +8,6 @@ import Eth from './eth.svg';
 import Eur from './eur.svg';
 import Gbp from './gbp.svg';
 import Ltc from './ltc.svg';
-import NextArrow from './next-arrow.svg';
 import Sort from './sort.svg';
 import Usd from './usd.svg';
 import Xrp from './xrp.svg';
@@ -24,7 +23,6 @@ export {
   Eur,
   Gbp,
   Ltc,
-  NextArrow,
   Sort,
   Usd,
   Xrp,

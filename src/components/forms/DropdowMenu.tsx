@@ -3,7 +3,6 @@ import { Fragment, useState } from "react";
 import { ArrowDown } from "../../assets";
 import { CustomText } from "../typography";
 import { DropdowMenuI } from "./interfaces";
-import { initialOption } from './helpers/index';
 
 const texts = {
   cryptoAlt: "crypto icon",

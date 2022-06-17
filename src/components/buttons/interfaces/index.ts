@@ -2,7 +2,7 @@ import React from "react";
 
 export interface ButtonsI {
   ariaLabel?: string;
-  children: string | JSX.Element;
+  children: string | JSX.Element | JSX.Element[];
   handleClick: React.MouseEventHandler<HTMLButtonElement>;
   isDisabled?: boolean;
   type?: "button" | "submit" | "reset";
@@ -14,5 +14,6 @@ export interface FullButtonI extends ButtonsI {
 }
 
 export interface TextButtonI extends ButtonsI {
-  variant?: "primary" | "secondary";
+  isActive?: boolean;
+  variant?: "primary" | "icon";
 }

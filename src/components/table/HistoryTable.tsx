@@ -10,6 +10,7 @@ import { DropdowMenu } from "../forms/DropdowMenu";
 import { Sort } from "../../assets";
 import { TableRowDesktop } from "./TableRowDesktop";
 import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { Pagination } from "../pagination/Pagination";
 
 const styles = {
   container: "px-6 py-12 w-full md:w-[1095px] md:px-0 md:mx-auto",
@@ -26,7 +27,7 @@ const styles = {
         index !== 0 && "border-l-tiny"
       } border-neutral3 pl-2 ${
         index % 2 === 0 ? "w-[210px]" : "w-[154px]"
-      } hover:underline focus:underline focus:outline-none`,
+      } underline-offset-1 hover:underline focus:underline focus:outline-none`
   }
 };
 
@@ -42,7 +43,7 @@ const texts = {
   },
   filterSelect: {
     label: "Type",
-    options: [{ value: "All" }, { value: "Exchanged" }, { value: "Live price" }]
+    options: [{ id: 1, value: "All" }, { id: 2, value: "Exchanged" }, { id: 3, value: "Live price" }]
   },
   table: {
     columns: [
@@ -123,6 +124,7 @@ export const HistoryTable = () => {
           </div>
         ))}
       </div>
+      <Pagination pagesNumber={16} />
     </section>
   );
 };
