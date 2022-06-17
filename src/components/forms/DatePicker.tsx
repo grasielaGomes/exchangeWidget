@@ -7,15 +7,17 @@ import { DatePickerSelector } from "./DatePickerSelector";
 import { DatePickerI } from "./interfaces";
 import { CustomText } from "../typography/CustomText";
 import { Calendar } from "../../assets";
+import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const styles = {
   popover: "flex-1 relative",
   selectButton:
     "flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0 md:w-[10rem]",
   label: "mb-1 md:text-neutral3",
-  selectButtonContent: "flex items-center justify-around ",
-  panel: "fixed bottom-4 left-[1rem] right-[1rem] z-50",
-  calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 "
+  selectButtonContent: "flex items-center justify-around",
+  panel:
+    "fixed bottom-4 left-[1rem] right-[1rem] z-50 md:absolute md:top-[4.6rem] md:left-0",
+  calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 md:w-[22rem]"
 };
 
 const texts = {
@@ -25,12 +27,28 @@ const texts = {
   label: "Date"
 };
 
-export const DatePicker = ({ label = texts.label, onChange, selectedDate }: DatePickerI) => {
+export const DatePicker = ({
+  label = texts.label,
+  onChange,
+  selectedDate
+}: DatePickerI) => {
   const [shownDate, setShownDate] = useState(selectedDate);
+  const { width } = useWindowDimensions();
+  const isMobile = width < 768;
   const isToday =
     selectedDate?.isSame(dayjs(), "day") &&
     selectedDate?.isSame(dayjs(), "month");
   const isSelected = !selectedDate?.isSame(dayjs().subtract(7, "day"), "day");
+
+  const mobileDate = isToday
+    ? texts.today
+    : isSelected
+    ? selectedDate.format("DD/MM")
+    : texts.select;
+
+  const desktopDate = isSelected
+    ? selectedDate.format("DD/MM/YYYY")
+    : texts.select;
 
   return (
     <Popover className={styles.popover}>
@@ -39,12 +57,10 @@ export const DatePicker = ({ label = texts.label, onChange, selectedDate }: Date
       </div>
       <Popover.Button className={styles.selectButton}>
         <div className={styles.selectButtonContent}>
-          <CustomText variant="small" color="neutral3">
-            {isToday
-              ? texts.today
-              : isSelected
-              ? selectedDate.format("DD/MM")
-              : texts.select}
+          <CustomText variant="small">
+            <span className={isMobile ? "text-neutral3" : "text-dark"}>
+              {isMobile ? mobileDate : desktopDate}
+            </span>
           </CustomText>
           <img src={Calendar} alt={texts.calendar} height="1rem" width="auto" />
         </div>

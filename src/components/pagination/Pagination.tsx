@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { getNumbers } from "./utils";
 
 const styles = {
-  container: "flex mt-7 gap-1",
+  container: "mt-7 gap-1 hidden md:flex",
   arrowIcon: "fill-dark"
 };
 

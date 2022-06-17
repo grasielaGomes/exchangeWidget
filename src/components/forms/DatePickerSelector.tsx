@@ -6,7 +6,8 @@ import { Chevron } from "../../assets";
 import { DatePickerSelectorI } from "./interfaces";
 
 const styles = {
-  container:
+  container: "w-full flex justify-center",
+  content:
     "flex justify-between items-center mt-4 mx-6 pt-3 w-[19rem] mx-auto",
   button: "w-10 h-10",
   leftIcon: "m-auto",
@@ -30,31 +31,33 @@ export const DatePickerSelector: React.FC<DatePickerSelectorI> = ({
 
   return (
     <div className={styles.container}>
-      <button
-        type="button"
-        className={styles.button}
-        onClick={handleIconClick(false)}
-      >
-        <img
-          src={Chevron}
-          alt={texts.leftIconAlt}
-          className={styles.leftIcon}
-        />
-      </button>
+      <div className={styles.content}>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={handleIconClick(false)}
+        >
+          <img
+            src={Chevron}
+            alt={texts.leftIconAlt}
+            className={styles.leftIcon}
+          />
+        </button>
 
-      <Heading variant="h3">{shownDate.format("MMMM YYYY")}</Heading>
+        <Heading variant="h3">{shownDate.format("MMMM YYYY")}</Heading>
 
-      <button
-        type="button"
-        className={styles.button}
-        onClick={handleIconClick(true)}
-      >
-        <img
-          src={Chevron}
-          alt={texts.rightIconAlt}
-          className={styles.rightIcon}
-        />
-      </button>
+        <button
+          type="button"
+          className={styles.button}
+          onClick={handleIconClick(true)}
+        >
+          <img
+            src={Chevron}
+            alt={texts.rightIconAlt}
+            className={styles.rightIcon}
+          />
+        </button>
+      </div>
     </div>
   );
 };
