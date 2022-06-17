@@ -12,5 +12,6 @@ export interface ExchangeTransactionI {
 }
 
 export interface TableRowI {
+  index?: number;
   transaction: ExchangeTransactionI;
 }

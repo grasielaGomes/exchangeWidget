@@ -14,7 +14,7 @@ import { OptionI } from "../forms/interfaces/index";
 
 const styles = {
   container: "shadow-3xl px-6 py-12 w-full",
-  content: "md:w-3/5 md:mx-auto",
+  content: "md:w-[1095px] md:mx-auto",
   header: "mb-6",
   bodyContainer: "flex flex-col gap-4 md:flex-row md:items-end",
   hiddenEqual: "hidden mb-2 md:block",
@@ -36,6 +36,7 @@ export const ExchangeHeader = () => {
   const [amountFrom, setAmountFrom] = useState("");
   const [amountTo, setAmountTo] = useState("");
   const [isValidated, setIsValidated] = useState(false);
+
 
   return (
     <header className={styles.container}>

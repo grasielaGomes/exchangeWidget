@@ -6,7 +6,7 @@ export const transactions = [
     from: "Bitcoin",
     id: "1",
     to: "USD",
-    totalAmount: "100",
+    totalAmount: "200",
     status: "LIVE"
   },
   {
@@ -16,7 +16,7 @@ export const transactions = [
     from: "Ethereum",
     id: "2",
     to: "EUR",
-    totalAmount: "100",
+    totalAmount: "145",
     status: "EXCHANGED"
   }
 ];

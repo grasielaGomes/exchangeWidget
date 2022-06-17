@@ -21,4 +21,11 @@ export const countries = {
   "CAD": "en-CA"
 }
 
+export const currencyCode = {
+  bitcoin: "BTC",
+  ethereum: "ETH",
+  litecoin: "LTC",
+  ripple: "XRP"
+};
+
 export const initialOption = { value: "USD", icon: "", id: "" };

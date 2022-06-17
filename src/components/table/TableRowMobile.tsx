@@ -7,6 +7,7 @@ import { CustomText } from "../typography";
 import { TableRowI } from "./interfaces/index";
 import { Heading } from "../typography/Heading";
 import { Close } from "../../assets";
+import { currencyCode } from "../forms/helpers";
 
 const texts = {
   modalTitle: "Exchange",
@@ -18,6 +19,10 @@ const texts = {
     to: "To",
     amount: "Amount",
     total: "Total Amount"
+  },
+  types: {
+    exchanged: "Approved",
+    livePrice: "Live price"
   }
 };
 
@@ -47,13 +52,6 @@ const styles = {
 export const TableRowMobile = ({
   transaction: { amount, currencyRate, date, from, to, totalAmount, status }
 }: TableRowI) => {
-  const currencyCode = {
-    bitcoin: "BTC",
-    ethereum: "ETH",
-    litecoin: "LTC",
-    ripple: "XRP"
-  };
-
   const [isOpen, setIsOpen] = useState(false);
   const formattedDate = dayjs(date).format("DD/MM/YYYY @ HH.mm");
   const isLive = status === "LIVE";
@@ -125,11 +123,14 @@ export const TableRowMobile = ({
                     </div>
                     <div className="flex items-center gap-2">
                       <div className={styles.modal.bullet(status)} />
-                      <CustomText
-                        variant="small"
-                        color={isLive ? "secondary" : "primary"}
-                      >
-                        {isLive ? "Live Price" : "Approved"}
+                      <CustomText variant="small">
+                        <span
+                          className={isLive ? "text-secondary" : "text-primary"}
+                        >
+                          {isLive
+                            ? texts.types.livePrice
+                            : texts.types.exchanged}
+                        </span>
                       </CustomText>
                     </div>
                   </div>
@@ -179,7 +180,7 @@ export const TableRowMobile = ({
                     </div>
                     <CustomText variant="small">
                       <>
-                        <span>{`${amount} `}</span>
+                        <span>{`${totalAmount} `}</span>
                         <span className={styles.modal.label}>
                           {
                             currencyCode[
@@ -194,7 +195,9 @@ export const TableRowMobile = ({
                     </CustomText>
                   </div>
                 </div>
-                <FullButton isFull handleClick={closeModal}>Close</FullButton>
+                <FullButton isFull handleClick={closeModal}>
+                  Close
+                </FullButton>
               </Dialog.Panel>
             </Transition.Child>
           </div>

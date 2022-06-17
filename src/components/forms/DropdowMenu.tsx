@@ -3,14 +3,15 @@ import { Fragment, useState } from "react";
 import { ArrowDown } from "../../assets";
 import { CustomText } from "../typography";
 import { DropdowMenuI } from "./interfaces";
+import { initialOption } from './helpers/index';
 
 const texts = {
   cryptoAlt: "crypto icon",
   arrowAlt: "dropdown menu down arrow"
 };
 
-export const DropdowMenu = ({ handleSelect, label, options }: DropdowMenuI) => {
-  const [currentOption, setCurrentOption] = useState("Select");
+export const DropdowMenu = ({ handleSelect, initialOption, label, options }: DropdowMenuI) => {
+  const [currentOption, setCurrentOption] = useState(initialOption?.value || "Select");
 
   const selectedIcon = () =>
     options.find((option) => option.value === currentOption)?.icon;
@@ -64,12 +65,12 @@ export const DropdowMenu = ({ handleSelect, label, options }: DropdowMenuI) => {
         </Listbox.Button>
         <Transition
           as={Fragment}
-          enter="ease-out duration-300"
-          enterFrom="translate-y-1/2 md:translate-y-0 md:opacity-0"
-          enterTo=" md:opacity-100"
-          leave="ease-out duration-100"
-          leaveFrom="translate-y-0 md:translate-y-0 md:opacity-100"
-          leaveTo="translate-y-1/2 md:opacity-0"
+          enter="ease-out duration-200"
+          enterFrom="opacity-0 translate-y-3/4 md:translate-y-0"
+          enterTo="opacity-100"
+          leave="ease-out duration-200"
+          leaveFrom="opacity-100 md:translate-y-0"
+          leaveTo="opacity-0 translate-y-3/4 md:translate-y-0"
         >
           <Listbox.Options className={styles.optionsContainer}>
             {options.map(({ id, value, icon }, index) => (
@@ -84,7 +85,7 @@ export const DropdowMenu = ({ handleSelect, label, options }: DropdowMenuI) => {
                 }
               >
                 <div className={styles.option.container}>
-                  <img src={icon} alt={`${value} icon`} />
+                  {icon && <img src={icon} alt={`${value} icon`} />}
                   <p className={styles.option.label}>{value}</p>
                 </div>
               </Listbox.Option>

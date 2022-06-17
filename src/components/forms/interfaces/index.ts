@@ -1,4 +1,5 @@
 import type { Dayjs } from "dayjs";
+import { initialOption } from '../helpers/index';
 
 export interface CalendarCellI {
   text: string;
@@ -7,12 +8,13 @@ export interface CalendarCellI {
 
 export interface OptionI {
   icon?: string;
-  id: string | number;
+  id?: string | number;
   value: string;
 }
 
 export interface DropdowMenuI {
   handleSelect: (option: OptionI) => void;
+  initialOption?: OptionI;
   label?: string;
   options: OptionI[];
 }

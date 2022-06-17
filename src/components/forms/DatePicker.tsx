@@ -11,8 +11,8 @@ import { Calendar } from "../../assets";
 const styles = {
   popover: "flex-1 relative",
   selectButton:
-    "flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
-  label: "mb-1",
+    "flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0 md:w-[10rem]",
+  label: "mb-1 md:text-neutral3",
   selectButtonContent: "flex items-center justify-around ",
   panel: "fixed bottom-4 left-[1rem] right-[1rem] z-50",
   calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 "
