@@ -29,7 +29,10 @@ const texts = {
 const styles = {
   container:
     "relative w-full grid gap-2 text-left p-4 bg-[#F9F9F9] border border-[#EFF0F6] rounded-xl hover:border-primaryHover focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
-  status: "absolute top-4 right-4 h-4 w-4 bg-primary rounded-full",
+  status: (status: string) =>
+    `absolute top-4 right-4 h-4 w-4 ${
+      status === "EXCHANGED" ? "bg-primary" : "bg-secondary"
+    } rounded-full`,
   modal: {
     dialog: "relative z-10",
     overlay: "fixed inset-0 bg-black bg-opacity-25",
@@ -71,7 +74,7 @@ export const TableRowMobile = ({
         <CustomText variant="small">{`${amount} ${
           currencyCode[from.toLowerCase() as keyof typeof currencyCode]
         } ${currencyRate}`}</CustomText>
-        <div className={styles.status} />
+        <div className={styles.status(status)} />
       </button>
 
       <Transition appear show={isOpen} as={Fragment}>

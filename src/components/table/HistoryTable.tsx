@@ -1,19 +1,17 @@
-import dayjs from "dayjs";
-import { useState, useEffect } from "react";
-
 import { Heading } from "../typography/Heading";
 import { DatePicker } from "../forms/DatePicker";
 import { FullButton } from "../buttons";
 import { TableRowMobile } from "./TableRowMobile";
-import { transactions } from "./helpers/index";
 import { DropdowMenu } from "../forms/DropdowMenu";
 import { Sort } from "../../assets";
 import { TableRowDesktop } from "./TableRowDesktop";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import { useHistoryTransactions } from "./hooks/useHistoryTransactions";
 import { Pagination } from "../pagination/Pagination";
+import { SpinLoading } from "../loadings/SpinLoading";
 
 const styles = {
   container: "px-6 py-12 w-full md:w-[1095px] md:px-0 md:mx-auto",
+  fechingLoadingContainer: "flex gap-3 items-center",
   dateContainer:
     "flex justify-between items-end gap-4 mt-3 mb-5 md:mt-5 md:mb-[45px] md:justify-end md:w-fit",
   filterSelector: "hidden md:block",
@@ -28,7 +26,8 @@ const styles = {
       } border-neutral3 pl-2 ${
         index % 2 === 0 ? "w-[210px]" : "w-[154px]"
       } underline-offset-1 hover:underline focus:underline focus:outline-none`
-  }
+  },
+  loadingContainer: "flex items-center justify-center w-full h-[20rem]"
 };
 
 const texts = {
@@ -44,9 +43,9 @@ const texts = {
   filterSelect: {
     label: "Type",
     options: [
-      { id: 1, value: "All" },
-      { id: 2, value: "Exchanged" },
-      { id: 3, value: "Live price" }
+      { id: "ALL", value: "All" },
+      { id: "EXCHANGED", value: "Exchanged" },
+      { id: "LIVE", value: "Live price" }
     ]
   },
   table: {
@@ -63,22 +62,25 @@ const texts = {
 };
 
 export const HistoryTable = () => {
-  const [startDate, setStartDate] = useState(dayjs().subtract(7, "day"));
-  const [endDate, setEndDate] = useState(dayjs());
-  const { width } = useWindowDimensions();
-  const isMobile = width < 768;
-
-  useEffect(() => {
-    fetch("http://localhost:3000/api/transactions")
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-      });
-  }, []);
+  const {
+    endDate,
+    error,
+    filterTransactionsByType,
+    historyList,
+    isFetching,
+    isLoading,
+    isMobile,
+    startDate,
+    setStartDate,
+    setEndDate
+  } = useHistoryTransactions();
 
   return (
     <section className={styles.container}>
-      <Heading>{texts.tableHead}</Heading>
+      <div className={styles.fechingLoadingContainer}>
+        <Heading>{texts.tableHead}</Heading>
+        {!isLoading && isFetching && <SpinLoading />}
+      </div>
       <div className={styles.dateContainer}>
         <DatePicker
           label={
@@ -100,7 +102,7 @@ export const HistoryTable = () => {
         />
         <div className={styles.filterSelector}>
           <DropdowMenu
-            handleSelect={() => {}}
+            handleSelect={(option) => filterTransactionsByType(option.id)}
             initialOption={texts.filterSelect.options[0]}
             label={texts.filterSelect.label}
             options={texts.filterSelect.options}
@@ -110,33 +112,43 @@ export const HistoryTable = () => {
           {texts.dateSelectors.filterButton}
         </FullButton>
       </div>
-      <div className={styles.tableContainerMobile}>
-        {transactions.map((transaction) => (
-          <div key={transaction.id}>
-            <TableRowMobile transaction={transaction} />
-          </div>
-        ))}
-      </div>
-      <div className={styles.tableContainerDesktop}>
-        <div className={styles.table.header}>
-          {texts.table.columns.map((column, index) => (
-            <div key={column} className={styles.table.title}>
-              <button className={styles.table.titleButton(index)}>
-                {index === 0 && (
-                  <img src={Sort} alt={texts.table.sortIconAlt} />
-                )}
-                {column}
-              </button>
-            </div>
-          ))}
+      {isLoading ? (
+        <div className={styles.loadingContainer}>
+          <SpinLoading />
         </div>
-        {transactions.map((transaction, index) => (
-          <div key={transaction.id}>
-            <TableRowDesktop index={index} transaction={transaction} />
+      ) : error ? (
+        <h1>Error...</h1>
+      ) : (
+        <div>
+          <div className={styles.tableContainerMobile}>
+            {historyList?.map((transaction) => (
+              <div key={transaction.id}>
+                <TableRowMobile transaction={transaction} />
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
-      <Pagination pagesNumber={16} />
+          <div className={styles.tableContainerDesktop}>
+            <div className={styles.table.header}>
+              {texts.table.columns.map((column, index) => (
+                <div key={column} className={styles.table.title}>
+                  <button className={styles.table.titleButton(index)}>
+                    {index === 0 && (
+                      <img src={Sort} alt={texts.table.sortIconAlt} />
+                    )}
+                    {column}
+                  </button>
+                </div>
+              ))}
+            </div>
+            {historyList?.map((transaction, index) => (
+              <div key={transaction.id}>
+                <TableRowDesktop index={index} transaction={transaction} />
+              </div>
+            ))}
+          </div>
+          <Pagination pagesNumber={1} />
+        </div>
+      )}
     </section>
   );
 };

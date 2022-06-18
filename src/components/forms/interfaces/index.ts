@@ -1,5 +1,4 @@
 import type { Dayjs } from "dayjs";
-import { initialOption } from '../helpers/index';
 
 export interface CalendarCellI {
   text: string;
@@ -8,7 +7,7 @@ export interface CalendarCellI {
 
 export interface OptionI {
   icon?: string;
-  id?: string | number;
+  id: string;
   value: string;
 }
 

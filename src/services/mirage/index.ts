@@ -1,41 +1,87 @@
-import { Dayjs } from 'dayjs';
-import { createServer, Model, Factory } from 'miragejs';
+import { createServer, Model, Factory } from "miragejs";
 import { faker } from "@faker-js/faker";
+import { TransactionI, CryptoRatesI } from "../interfaces";
 
-type Transaction = {
-  amount: string;
-  currencyRate: number | string;
-  date: Dayjs | string | Date;
-  from: string;
-  id: string | number;
-  to: string;
-  status: string;
-};
-
-const cryptoCode = ["BTC", "ETH", "LTC", "XRP"];
+const cryptoCode = ["Bitcoin", "Ethereum", "Ripple", "Litcoin"];
 const currencyCode = ["USD", "EUR", "GBP", "CAD"];
 const status = ["LIVE", "EXCHANGED"];
+
+const currencies = [
+  {
+    timestamp: () => faker.date.recent(100),
+    target: "USD",
+    rates: {
+      Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
+      Ethereum: faker.finance.amount(0.05, 0.08, 3),
+      Litcoin: faker.finance.amount(0.01, 0.04, 3),
+      Ripple: faker.finance.amount(2, 5, 2)
+    }
+  },
+  {
+    timestamp: () => faker.date.recent(100),
+    target: "EUR",
+    rates: {
+      Bitcoin: faker.finance.amount(0.00005, 0.00009, 6),
+      Ethereum: faker.finance.amount(0.05, 0.08, 3),
+      Litcoin: faker.finance.amount(0.01, 0.04, 3),
+      Ripple: faker.finance.amount(2, 5, 2)
+    }
+  },
+  {
+    timestamp: () => faker.date.recent(100),
+    target: "GBP",
+    rates: {
+      Bitcoin: faker.finance.amount(0.00006, 0.0001, 6),
+      Ethereum: faker.finance.amount(0.06, 0.09, 3),
+      Litcoin: faker.finance.amount(0.02, 0.05, 3),
+      Ripple: faker.finance.amount(3, 6, 2)
+    }
+  },
+  {
+    timestamp: () => faker.date.recent(100),
+    target: "USD",
+    rates: {
+      Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
+      Ethereum: faker.finance.amount(0.05, 0.08, 3),
+      Litcoin: faker.finance.amount(0.01, 0.04, 3),
+      Ripple: faker.finance.amount(2, 5, 2)
+    }
+  }
+];
 
 export const makeServer = () => {
   const server = createServer({
     models: {
-      transaction: Model.extend<Partial<Transaction>>({})
+      transaction: Model.extend<Partial<TransactionI>>({}),
+      rates: Model.extend<Partial<CryptoRatesI>>({})
     },
 
     factories: {
       transaction: Factory.extend({
-        amount: () => faker.finance.amount(1, 10000),
-        currencyRate: () => faker.finance.amount(1, 50000),
+        amount: () => faker.finance.amount(1, 5, 0),
+        currencyRate: () => faker.finance.amount(0.00004, 2, 6),
         date: () => faker.date.recent(100),
-        from: () => cryptoCode[Number(faker.finance.amount(0, 3, 0))],
+        from: (i: number) => cryptoCode[i % cryptoCode.length],
         id: () => faker.finance.bitcoinAddress(),
-        to: () => currencyCode[Number(faker.finance.amount(0, 3, 0))],
-        status: () => status[Number(faker.finance.amount(0, 1, 0))]
+        to: (i: number) => currencyCode[i % currencyCode.length],
+        totalAmount: "",
+        status: (i: number) => status[i % status.length]
+      }),
+      rate: Factory.extend({
+        timestamp: () => faker.date.recent(100),
+        target: (i) => currencyCode[i % currencyCode.length],
+        rates: {
+          Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
+          Ethereum: faker.finance.amount(0.05, 0.08, 3),
+          Litcoin: faker.finance.amount(0.01, 0.04, 3),
+          Ripple: faker.finance.amount(2, 5, 2)
+        }
       })
     },
 
     seeds(server) {
-      server.createList("transaction", 50);
+      server.createList("transaction", 5);
+      server.createList("rate", 4);
     },
 
     routes() {
@@ -43,8 +89,10 @@ export const makeServer = () => {
       this.timing = 750;
       this.get("/transactions");
       this.post("/transactions");
+
+      this.get("/rates");
     }
   });
 
   return server;
-}
+};

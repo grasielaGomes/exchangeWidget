@@ -24,7 +24,7 @@ export const countries = {
 export const currencyCode = {
   bitcoin: "BTC",
   ethereum: "ETH",
-  litecoin: "LTC",
+  litcoin: "LTC",
   ripple: "XRP"
 };
 
