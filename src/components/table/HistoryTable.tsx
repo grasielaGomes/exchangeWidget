@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import { Heading } from "../typography/Heading";
 import { DatePicker } from "../forms/DatePicker";
@@ -43,7 +43,11 @@ const texts = {
   },
   filterSelect: {
     label: "Type",
-    options: [{ id: 1, value: "All" }, { id: 2, value: "Exchanged" }, { id: 3, value: "Live price" }]
+    options: [
+      { id: 1, value: "All" },
+      { id: 2, value: "Exchanged" },
+      { id: 3, value: "Live price" }
+    ]
   },
   table: {
     columns: [
@@ -63,6 +67,14 @@ export const HistoryTable = () => {
   const [endDate, setEndDate] = useState(dayjs());
   const { width } = useWindowDimensions();
   const isMobile = width < 768;
+
+  useEffect(() => {
+    fetch("http://localhost:3000/api/transactions")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      });
+  }, []);
 
   return (
     <section className={styles.container}>
