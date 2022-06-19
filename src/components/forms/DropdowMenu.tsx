@@ -9,8 +9,15 @@ const texts = {
   arrowAlt: "dropdown menu down arrow"
 };
 
-export const DropdowMenu = ({ handleSelect, initialOption, label, options }: DropdowMenuI) => {
-  const [currentOption, setCurrentOption] = useState(initialOption?.value || "Select");
+export const DropdowMenu = ({
+  handleSelect,
+  initialOption,
+  label,
+  options
+}: DropdowMenuI) => {
+  const [currentOption, setCurrentOption] = useState(
+    initialOption?.value || "Select"
+  );
 
   const selectedIcon = () =>
     options.find((option) => option.value === currentOption)?.icon;
@@ -62,6 +69,7 @@ export const DropdowMenu = ({ handleSelect, initialOption, label, options }: Dro
             </div>
           </button>
         </Listbox.Button>
+
         <Transition
           as={Fragment}
           enter="ease-out duration-200"

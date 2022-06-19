@@ -8,12 +8,13 @@ import { TableRowDesktop } from "./TableRowDesktop";
 import { useHistoryTransactions } from "./hooks/useHistoryTransactions";
 import { Pagination } from "../pagination/Pagination";
 import { SpinLoading } from "../loadings/SpinLoading";
+import { CustomText } from "../typography";
 
 const styles = {
   container: "px-6 py-12 w-full md:w-[1095px] md:px-0 md:mx-auto",
   fechingLoadingContainer: "flex gap-3 items-center",
   dateContainer:
-    "flex justify-between items-end gap-4 mt-3 mb-5 md:mt-5 md:mb-[45px] md:justify-end md:w-fit",
+    "relative flex justify-between items-end gap-4 mt-3 mb-5 md:mt-5 md:mb-[45px] md:justify-end md:w-fit",
   filterSelector: "hidden md:block",
   tableContainerMobile: "grid gap-3 md:hidden",
   tableContainerDesktop: "hidden md:block",
@@ -27,7 +28,8 @@ const styles = {
         index % 2 === 0 ? "w-[210px]" : "w-[154px]"
       } underline-offset-1 hover:underline focus:underline focus:outline-none`
   },
-  loadingContainer: "flex items-center justify-center w-full h-[20rem]"
+  loadingContainer: "flex items-center justify-center w-full h-[20rem]",
+  error: "absolute -bottom-6 left-0 pl-2 text-pink-500"
 };
 
 const texts = {
@@ -58,14 +60,17 @@ const texts = {
       "Type"
     ],
     sortIconAlt: "Sort columns icon"
-  }
+  },
+  errorMessage: "Please start date must be less than end date"
 };
 
 export const HistoryTable = () => {
   const {
+    dateError,
     endDate,
     error,
-    filterTransactionsByType,
+    filterTransactions,
+    handleType,
     historyList,
     isFetching,
     isLoading,
@@ -102,22 +107,31 @@ export const HistoryTable = () => {
         />
         <div className={styles.filterSelector}>
           <DropdowMenu
-            handleSelect={(option) => filterTransactionsByType(option.id)}
+            handleSelect={(option) => handleType(option.id)}
             initialOption={texts.filterSelect.options[0]}
             label={texts.filterSelect.label}
             options={texts.filterSelect.options}
           />
         </div>
-        <FullButton variant="secondary" handleClick={() => {}}>
+        <FullButton
+          variant="secondary"
+          handleClick={() => filterTransactions()}
+        >
           {texts.dateSelectors.filterButton}
         </FullButton>
+        {dateError && (
+          <div className={styles.error}>
+            <CustomText variant="tiny">{texts.errorMessage}</CustomText>
+          </div>
+        )}
       </div>
+
       {isLoading ? (
         <div className={styles.loadingContainer}>
           <SpinLoading />
         </div>
       ) : error ? (
-        <h1>Error...</h1>
+        <CustomText>Server Error</CustomText>
       ) : (
         <div>
           <div className={styles.tableContainerMobile}>

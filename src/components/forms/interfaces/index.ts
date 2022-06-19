@@ -19,8 +19,9 @@ export interface DropdowMenuI {
 }
 
 export interface DatePickerI {
+  hasError?: boolean;
   label?: string;
-  onChange: (newDate: Dayjs) => void ;
+  onChange: (newDate: Dayjs) => void;
   selectedDate: Dayjs;
 }
 

@@ -6,49 +6,6 @@ const cryptoCode = ["Bitcoin", "Ethereum", "Ripple", "Litcoin"];
 const currencyCode = ["USD", "EUR", "GBP", "CAD"];
 const status = ["LIVE", "EXCHANGED"];
 
-const currencies = [
-  {
-    timestamp: () => faker.date.recent(100),
-    target: "USD",
-    rates: {
-      Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
-      Ethereum: faker.finance.amount(0.05, 0.08, 3),
-      Litcoin: faker.finance.amount(0.01, 0.04, 3),
-      Ripple: faker.finance.amount(2, 5, 2)
-    }
-  },
-  {
-    timestamp: () => faker.date.recent(100),
-    target: "EUR",
-    rates: {
-      Bitcoin: faker.finance.amount(0.00005, 0.00009, 6),
-      Ethereum: faker.finance.amount(0.05, 0.08, 3),
-      Litcoin: faker.finance.amount(0.01, 0.04, 3),
-      Ripple: faker.finance.amount(2, 5, 2)
-    }
-  },
-  {
-    timestamp: () => faker.date.recent(100),
-    target: "GBP",
-    rates: {
-      Bitcoin: faker.finance.amount(0.00006, 0.0001, 6),
-      Ethereum: faker.finance.amount(0.06, 0.09, 3),
-      Litcoin: faker.finance.amount(0.02, 0.05, 3),
-      Ripple: faker.finance.amount(3, 6, 2)
-    }
-  },
-  {
-    timestamp: () => faker.date.recent(100),
-    target: "USD",
-    rates: {
-      Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
-      Ethereum: faker.finance.amount(0.05, 0.08, 3),
-      Litcoin: faker.finance.amount(0.01, 0.04, 3),
-      Ripple: faker.finance.amount(2, 5, 2)
-    }
-  }
-];
-
 export const makeServer = () => {
   const server = createServer({
     models: {
@@ -88,6 +45,7 @@ export const makeServer = () => {
       this.namespace = "api";
       this.timing = 750;
       this.get("/transactions");
+
       this.post("/transactions");
 
       this.get("/rates");

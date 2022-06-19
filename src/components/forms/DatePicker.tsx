@@ -11,23 +11,28 @@ import useWindowDimensions from "../../hooks/useWindowDimensions";
 
 const styles = {
   popover: "flex-1 relative",
-  selectButton:
-    "flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0 md:w-[10rem]",
+  selectButton: (hasError: boolean) =>
+    `flex-1 w-full border rounded-lg border-neutral h-11 focus:outline-none focus:border-primary focus:ring-primary focus:ring-0 md:w-[10rem] ${
+      hasError && "border-pink-500"
+    }`,
   label: "mb-1 md:text-neutral3",
   selectButtonContent: "flex items-center justify-around",
   panel:
     "fixed bottom-4 left-[1rem] right-[1rem] z-50 md:absolute md:top-[4.6rem] md:left-0",
-  calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 md:w-[22rem]"
+  calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 md:w-[22rem]",
+  error: "mt-1 pl-2 text-pink-500 md:-mb-5"
 };
 
 const texts = {
   calendar: "Calendar Icon",
   today: "Today",
   select: "Select",
-  label: "Date"
+  label: "Date",
+  errorMessage: "Please select a date"
 };
 
 export const DatePicker = ({
+  hasError = false,
   label = texts.label,
   onChange,
   selectedDate
@@ -55,7 +60,7 @@ export const DatePicker = ({
       <div className={styles.label}>
         <CustomText variant="small">{label}</CustomText>
       </div>
-      <Popover.Button className={styles.selectButton}>
+      <Popover.Button className={styles.selectButton(hasError && !isSelected)}>
         <div className={styles.selectButtonContent}>
           <CustomText variant="small">
             <span className={isMobile ? "text-neutral3" : "text-dark"}>
@@ -65,6 +70,11 @@ export const DatePicker = ({
           <img src={Calendar} alt={texts.calendar} height="1rem" width="auto" />
         </div>
       </Popover.Button>
+      {hasError && !isSelected && (
+        <div className={styles.error}>
+          <CustomText variant="tiny">{texts.errorMessage}</CustomText>
+        </div>
+      )}
       <Transition
         as={Fragment}
         enter="transition ease-out duration-200"
