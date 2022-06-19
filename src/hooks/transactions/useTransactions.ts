@@ -1,4 +1,4 @@
-import { useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { api } from "../../api";
 import { countries } from "../../components/forms/helpers";
 import { ExchangeTransactionI } from "../../components/table/interfaces";
@@ -51,7 +51,7 @@ export const useTransactions = () => {
 
         return {
           amount: transaction.amount,
-          currencyRate: isExchanged ? total : liveRate,
+          currencyRate: isExchanged ? transaction.currencyRate : liveRate,
           date: transaction.date,
           from: transaction.from,
           id: transaction.id,
@@ -72,8 +72,26 @@ export const useTransactions = () => {
     error
   } = useQuery("transactions", mapHistoryTransactions, {
     // Define after how much time the cache should be considered stale
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 60
   });
 
-  return { mappedTransactions, isLoading, isFetching, error };
+  const queryClient = useQueryClient();
+
+  const createTransaction = useMutation(
+    async (transaction: ExchangeTransactionI) => {
+      const response = await api.post("/api/transactions", {
+        transaction
+      });
+      return response.data.transactions;
+    },
+    { onSuccess: () => queryClient.invalidateQueries("transactions") }
+  );
+
+  return {
+    mappedTransactions,
+    isLoading,
+    isFetching,
+    error,
+    createTransaction
+  };
 };

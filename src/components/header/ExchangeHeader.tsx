@@ -73,7 +73,7 @@ export const ExchangeHeader = () => {
             hasError={!amountFrom && !amountTo && isValidated}
             value={amountTo}
           />
-          <FullButton handleClick={handleSaveTransaction} type="submit">
+          <FullButton handleClick={handleSaveTransaction}>
             <>
               <span className={styles.buttonLabelMobile}>
                 {texts.buttonMobile}

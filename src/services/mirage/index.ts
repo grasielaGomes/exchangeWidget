@@ -1,5 +1,7 @@
-import { createServer, Model, Factory } from "miragejs";
+import { createServer, Model, Factory, RestSerializer } from "miragejs";
+import dayjs from "dayjs";
 import { faker } from "@faker-js/faker";
+
 import { TransactionI, CryptoRatesI } from "../interfaces";
 
 const cryptoCode = ["Bitcoin", "Ethereum", "Ripple", "Litcoin"];
@@ -8,6 +10,10 @@ const status = ["LIVE", "EXCHANGED"];
 
 export const makeServer = () => {
   const server = createServer({
+    serializers: {
+      application: RestSerializer
+    },
+
     models: {
       transaction: Model.extend<Partial<TransactionI>>({}),
       rates: Model.extend<Partial<CryptoRatesI>>({})
@@ -44,7 +50,11 @@ export const makeServer = () => {
     routes() {
       this.namespace = "api";
       this.timing = 750;
-      this.get("/transactions");
+      this.get("/transactions", (schema) => {
+        return schema.all("transaction").sort((a, b) => {
+          return dayjs(b.date).diff(dayjs(a.date));
+        });
+      });
 
       this.post("/transactions");
 

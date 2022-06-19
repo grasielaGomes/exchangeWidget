@@ -7,6 +7,9 @@ import { useHistoryReducer } from "../../../hooks/historyReducer/useHistoryReduc
 import { initialOption } from "../../forms/helpers";
 import { OptionI } from "../../forms/interfaces";
 import { TransactionRateI } from "../../table/interfaces/index";
+import { useMutation } from "react-query";
+import { api } from "../../../api";
+import { useTransactions } from '../../../hooks/transactions/useTransactions';
 
 export const useExchangeCurrency = () => {
   const [currencyFrom, setCurrencyFrom] = useState<OptionI>(initialOption);
@@ -15,9 +18,11 @@ export const useExchangeCurrency = () => {
   const [amountTo, setAmountTo] = useState("0");
   const [isValidated, setIsValidated] = useState(false);
   const { dispatch } = useHistoryReducer();
+  const { createTransaction } = useTransactions();
 
   const { rates: apiRates } = useRates();
 
+  // Get the rates from custom hook
   const getRate = (
     from: string,
     to: string,
@@ -124,21 +129,20 @@ export const useExchangeCurrency = () => {
   };
 
   // Handle transaction submit
-  const handleSaveTransaction = () => {
+  const handleSaveTransaction = async () => {
     setIsValidated(true);
-    dispatch({
-      type: "ADD_TRANSACTION",
-      payload: {
-        amount: amountTo,
-        currencyRate: "",
-        date: dayjs(),
-        from: currencyFrom.value,
-        id: faker.finance.bitcoinAddress(),
-        to: currencyTo.value,
-        totalAmount: amountFrom,
-        status: "LIVE"
-      }
-    });
+    const transaction = {
+      amount: amountFrom,
+      currency_rate: "",
+      date: dayjs(),
+      from: currencyFrom.value,
+      id: faker.finance.bitcoinAddress(),
+      to: currencyTo.value,
+      total_amount: amountTo,
+      status: "LIVE"
+    };
+    await createTransaction.mutateAsync(transaction);
+    
   };
 
   // Update the amount to when the currency to changes

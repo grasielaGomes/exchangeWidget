@@ -8,6 +8,7 @@ const getWindowDimensions = () => {
   };
 };
 
+// Get the window dimensions on page load
 export default function useWindowDimensions() {
   const [windowDimensions, setWindowDimensions] = useState(
     getWindowDimensions()

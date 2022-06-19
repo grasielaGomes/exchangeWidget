@@ -16,7 +16,6 @@ export const useHistoryReducer = () => {
 
   // Reducer types and payloads
   type TransactionAction =
-    | { type: "ADD_TRANSACTION"; payload: ExchangeTransactionI }
     | {
         type: "FETCH_HISTORY";
         fetchedHistory: ExchangeTransactionI[];
@@ -44,11 +43,6 @@ export const useHistoryReducer = () => {
     action: TransactionAction
   ): ReducerTransactionsI => {
     switch (action.type) {
-      case "ADD_TRANSACTION":
-        return {
-          ...state,
-          historyList: [...state.historyList, action.payload]
-        };
       case "FETCH_HISTORY":
         return {
           previousList: action.fetchedHistory,
@@ -87,7 +81,7 @@ export const useHistoryReducer = () => {
         return {
           ...state,
           historyList: state.previousList.sort((a, b) => {
-            return dayjs(a.date).diff(dayjs(b.date));
+            return dayjs(b.date).diff(dayjs(a.date));
           })
         };
       case "SORT_BY_CURRENCY_FROM":
