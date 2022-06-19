@@ -7,7 +7,7 @@ export interface CalendarCellI {
 
 export interface OptionI {
   icon?: string;
-  id: string;
+  id: string | number;
   value: string;
 }
 
@@ -43,7 +43,7 @@ interface CurrencyI {
 
 export interface AmountInputI {
   currency?: CurrencyI;
-  handleSubmitAmount: (amount: string) => void;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   hasError?: boolean;
-  initialValue?: string;
+  value?: string;
 }

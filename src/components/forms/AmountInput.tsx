@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import { CustomText } from "../typography";
 import { AmountInputI } from "./interfaces";
 import { formatCurrency } from "../../utils";
@@ -11,20 +10,10 @@ const texts = {
 
 export const AmountInput = ({
   currency,
-  handleSubmitAmount,
+  handleChange,
   hasError,
-  initialValue
+  value
 }: AmountInputI) => {
-  const [amount, setAmount] = useState(initialValue);
-
-  useEffect(() => {
-    handleSubmitAmount(amount || "");
-  }, [amount]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setAmount(value);
-  };
 
   const styles = {
     container: hasError && "md:-mb-5",
@@ -47,10 +36,10 @@ export const AmountInput = ({
         type="tel"
         value={
           formatCurrency(
-            amount as string,
+            value as string,
             currency?.country || "",
             currency?.type || ""
-          ) || amount
+          ) || value
         }
         className={styles.input}
         placeholder={texts.placeholder}

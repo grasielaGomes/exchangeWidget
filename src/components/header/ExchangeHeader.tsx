@@ -1,16 +1,10 @@
 import { FullButton } from "../buttons";
 import { DropdowMenu } from "../forms";
-import {
-  cryptoOptions,
-  currenciesOptions,
-  initialOption,
-  countries
-} from "../forms/helpers";
+import { cryptoOptions, currenciesOptions, countries } from "../forms/helpers";
 import { AmountInput } from "../forms/AmountInput";
 import { Heading } from "../typography";
-import { useState } from "react";
 import { CustomText } from "../typography/CustomText";
-import { OptionI } from "../forms/interfaces/index";
+import { useExchangeCurrency } from "./hooks/useExchangeCurrency";
 
 const styles = {
   container: "shadow-3xl px-6 py-12 w-full",
@@ -31,12 +25,18 @@ const texts = {
 };
 
 export const ExchangeHeader = () => {
-  const [currencyFrom, setCurrencyFrom] = useState<OptionI>(initialOption);
-  const [currencyTo, setCurrencyTo] = useState<OptionI>(initialOption);
-  const [amountFrom, setAmountFrom] = useState("");
-  const [amountTo, setAmountTo] = useState("");
-  const [isValidated, setIsValidated] = useState(false);
-
+  const {
+    amountFrom,
+    amountTo,
+    currencyFrom,
+    currencyTo,
+    handleAmountFromChange,
+    handleAmountToChange,
+    handleCurrencyFromChange,
+    handleCurrencyToChange,
+    handleSaveTransaction,
+    isValidated
+  } = useExchangeCurrency();
 
   return (
     <header className={styles.container}>
@@ -48,12 +48,12 @@ export const ExchangeHeader = () => {
           <DropdowMenu
             options={cryptoOptions}
             label={texts.from}
-            handleSelect={(value) => setCurrencyFrom(value)}
+            handleSelect={(value) => handleCurrencyFromChange(value)}
           />
           <AmountInput
-            handleSubmitAmount={(amount) => setAmountFrom(amount)}
+            handleChange={(event) => handleAmountFromChange(event)}
             hasError={!amountFrom && isValidated}
-            initialValue=""
+            value={amountFrom}
           />
           <div className={styles.hiddenEqual}>
             <CustomText>=</CustomText>
@@ -61,26 +61,25 @@ export const ExchangeHeader = () => {
           <DropdowMenu
             options={currenciesOptions}
             label={texts.to}
-            handleSelect={(value) => setCurrencyTo(value)}
+            handleSelect={(value) => handleCurrencyToChange(value)}
           />
           <AmountInput
             currency={{
               country: countries[currencyTo.value as keyof typeof countries],
               type: currencyTo.value.toLowerCase()
             }}
-            handleSubmitAmount={(amount) => setAmountTo(amount)}
+            handleChange={(amount) => handleAmountToChange(amount)}
             hasError={!amountFrom && !amountTo && isValidated}
-            initialValue="0"
+            value={amountTo}
           />
-          <FullButton
-            handleClick={() => {
-              setIsValidated(true);
-            }}
-            type="submit"
-          >
+          <FullButton handleClick={handleSaveTransaction} type="submit">
             <>
-              <span className={styles.buttonLabelMobile}>{texts.buttonMobile}</span>
-              <span className={styles.buttonLabelDesktop}>{texts.buttonDesktop}</span>
+              <span className={styles.buttonLabelMobile}>
+                {texts.buttonMobile}
+              </span>
+              <span className={styles.buttonLabelDesktop}>
+                {texts.buttonDesktop}
+              </span>
             </>
           </FullButton>
         </div>

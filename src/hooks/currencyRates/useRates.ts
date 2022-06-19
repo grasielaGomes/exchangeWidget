@@ -1,3 +1,4 @@
+import { useQuery } from "react-query";
 import { api } from "../../api";
 import { TransactionRateI } from "../../components/table/interfaces";
 
@@ -8,5 +9,8 @@ export const useRates = () => {
     return data.rates;
   }
 
-  return { getRates };
+  // Get rates from API using react-query to cache the data
+  const { data: rates } = useQuery("rates", getRates);
+
+  return { getRates, rates };
 };

@@ -6,7 +6,8 @@ import { DropdowMenuI } from "./interfaces";
 
 const texts = {
   cryptoAlt: "crypto icon",
-  arrowAlt: "dropdown menu down arrow"
+  arrowAlt: "dropdown menu down arrow",
+  errorMessage: "Please select a date",
 };
 
 export const DropdowMenu = ({
@@ -39,7 +40,7 @@ export const DropdowMenu = ({
     option: {
       container: `${animation} flex gap-2 py-3 px-6 hover:bg-neutral2`,
       label: "text-fontSecondary text-base font-medium"
-    }
+    },
   };
 
   return (
@@ -69,7 +70,6 @@ export const DropdowMenu = ({
             </div>
           </button>
         </Listbox.Button>
-
         <Transition
           as={Fragment}
           enter="ease-out duration-200"

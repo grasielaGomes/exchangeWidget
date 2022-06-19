@@ -1,7 +1,6 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
 import { useReducer } from "react";
 import { ExchangeTransactionI } from "../../components/table/interfaces";
-import { Dayjs } from "dayjs";
 
 export const useHistoryReducer = () => {
   interface ReducerTransactionsI {
@@ -9,12 +8,15 @@ export const useHistoryReducer = () => {
     previousList: ExchangeTransactionI[];
   }
 
+  // Reducer initial state
   const INITIAL_STATE: ReducerTransactionsI = {
     historyList: [],
     previousList: []
   };
 
+  // Reducer types and payloads
   type TransactionAction =
+    | { type: "ADD_TRANSACTION"; payload: ExchangeTransactionI }
     | {
         type: "FETCH_HISTORY";
         fetchedHistory: ExchangeTransactionI[];
@@ -42,6 +44,11 @@ export const useHistoryReducer = () => {
     action: TransactionAction
   ): ReducerTransactionsI => {
     switch (action.type) {
+      case "ADD_TRANSACTION":
+        return {
+          ...state,
+          historyList: [...state.historyList, action.payload]
+        };
       case "FETCH_HISTORY":
         return {
           previousList: action.fetchedHistory,
