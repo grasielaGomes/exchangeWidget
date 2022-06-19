@@ -5,6 +5,7 @@ import { AmountInput } from "../forms/AmountInput";
 import { Heading } from "../typography";
 import { CustomText } from "../typography/CustomText";
 import { useExchangeCurrency } from "./hooks/useExchangeCurrency";
+import { initialOption } from '../forms/helpers/index';
 
 const styles = {
   container: "shadow-3xl px-6 py-12 w-full",
@@ -28,7 +29,6 @@ export const ExchangeHeader = () => {
   const {
     amountFrom,
     amountTo,
-    currencyFrom,
     currencyTo,
     handleAmountFromChange,
     handleAmountToChange,
@@ -59,9 +59,10 @@ export const ExchangeHeader = () => {
             <CustomText>=</CustomText>
           </div>
           <DropdowMenu
-            options={currenciesOptions}
-            label={texts.to}
             handleSelect={(value) => handleCurrencyToChange(value)}
+            label={texts.to}
+            initialOption={initialOption}
+            options={currenciesOptions}
           />
           <AmountInput
             currency={{

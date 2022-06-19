@@ -28,10 +28,10 @@ export const makeServer = () => {
         timestamp: () => faker.date.recent(100),
         target: (i) => currencyCode[i % currencyCode.length],
         rates: {
-          Bitcoin: faker.finance.amount(0.00004, 0.00008, 6),
-          Ethereum: faker.finance.amount(0.05, 0.08, 3),
-          Litcoin: faker.finance.amount(0.01, 0.04, 3),
-          Ripple: faker.finance.amount(2, 5, 2)
+          Bitcoin: () => faker.finance.amount(0.00004, 0.00008, 6),
+          Ethereum: () => faker.finance.amount(0.05, 0.08, 3),
+          Litcoin: () => faker.finance.amount(0.01, 0.04, 3),
+          Ripple: () => faker.finance.amount(2, 5, 2)
         }
       })
     },
