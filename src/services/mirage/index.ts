@@ -10,15 +10,19 @@ const status = ["LIVE", "EXCHANGED"];
 
 export const makeServer = () => {
   const server = createServer({
+
+    // Set serializer type
     serializers: {
       application: RestSerializer
     },
 
+    // Set db models
     models: {
       transaction: Model.extend<Partial<TransactionI>>({}),
       rates: Model.extend<Partial<CryptoRatesI>>({})
     },
 
+    // Set factories schema
     factories: {
       transaction: Factory.extend({
         amount: () => faker.finance.amount(1, 5, 0),
@@ -42,22 +46,29 @@ export const makeServer = () => {
       })
     },
 
+    // Creates db seeds
     seeds(server) {
       server.createList("transaction", 5);
       server.createList("rate", 4);
     },
 
     routes() {
+      // Define routes prefix
       this.namespace = "api";
+
+      // Define latency time
       this.timing = 750;
+
+      // Define routes
       this.get("/transactions", (schema) => {
+        
+        // Sort transactions by date
         return schema.all("transaction").sort((a, b) => {
           return dayjs(b.date).diff(dayjs(a.date));
         });
       });
 
       this.post("/transactions");
-
       this.get("/rates");
     }
   });

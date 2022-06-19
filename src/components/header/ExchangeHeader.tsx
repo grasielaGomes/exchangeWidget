@@ -5,7 +5,9 @@ import { AmountInput } from "../forms/AmountInput";
 import { Heading } from "../typography";
 import { CustomText } from "../typography/CustomText";
 import { useExchangeCurrency } from "./hooks/useExchangeCurrency";
-import { initialOption } from '../forms/helpers/index';
+import { initialOption } from "../forms/helpers/index";
+import { SpinLoading } from "../loadings/SpinLoading";
+import { Feedback } from "../feedback";
 
 const styles = {
   container: "shadow-3xl px-6 py-12 w-full",
@@ -14,7 +16,11 @@ const styles = {
   bodyContainer: "flex flex-col gap-4 md:flex-row md:items-end",
   hiddenEqual: "hidden mb-2 md:block",
   buttonLabelMobile: "md:hidden",
-  buttonLabelDesktop: "hidden md:inline"
+  buttonLabelDesktop: "hidden md:inline",
+  successFeedback: (isSuccess: boolean) =>
+    `fixed left-0 bottom-0 w-full flex items-center justify-center h-12 bg-primary transition-opacity duration-200 ease-in-out opacity-0 ${
+      isSuccess && "opacity-100"
+    }`
 };
 
 const texts = {
@@ -22,7 +28,8 @@ const texts = {
   from: "Currency from",
   to: "Currency to",
   buttonMobile: "Exchange",
-  buttonDesktop: "Save"
+  buttonDesktop: "Save",
+  successMessage: "Exchange submitted."
 };
 
 export const ExchangeHeader = () => {
@@ -35,7 +42,9 @@ export const ExchangeHeader = () => {
     handleCurrencyFromChange,
     handleCurrencyToChange,
     handleSaveTransaction,
-    isValidated
+    isLoading,
+    isSuccess,
+    isValid
   } = useExchangeCurrency();
 
   return (
@@ -52,7 +61,6 @@ export const ExchangeHeader = () => {
           />
           <AmountInput
             handleChange={(event) => handleAmountFromChange(event)}
-            hasError={!amountFrom && isValidated}
             value={amountFrom}
           />
           <div className={styles.hiddenEqual}>
@@ -70,21 +78,29 @@ export const ExchangeHeader = () => {
               type: currencyTo.value.toLowerCase()
             }}
             handleChange={(amount) => handleAmountToChange(amount)}
-            hasError={!amountFrom && !amountTo && isValidated}
             value={amountTo}
           />
-          <FullButton handleClick={handleSaveTransaction}>
-            <>
-              <span className={styles.buttonLabelMobile}>
-                {texts.buttonMobile}
-              </span>
-              <span className={styles.buttonLabelDesktop}>
-                {texts.buttonDesktop}
-              </span>
-            </>
+          <FullButton handleClick={handleSaveTransaction} isDisabled={!isValid}>
+            {isLoading ? (
+              <div className="w-9">
+                <SpinLoading />
+              </div>
+            ) : (
+              <>
+                <span className={styles.buttonLabelMobile}>
+                  {texts.buttonMobile}
+                </span>
+                <span className={styles.buttonLabelDesktop}>
+                  {texts.buttonDesktop}
+                </span>
+              </>
+            )}
           </FullButton>
         </div>
       </div>
+      {isSuccess && !isLoading && (
+        <Feedback isSuccess={isSuccess} />
+      )}
     </header>
   );
 };

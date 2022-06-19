@@ -3,24 +3,20 @@ import { faker } from "@faker-js/faker";
 import dayjs from "dayjs";
 
 import { useRates } from "../../../hooks/currencyRates/useRates";
-import { useHistoryReducer } from "../../../hooks/historyReducer/useHistoryReducer";
 import { initialOption } from "../../forms/helpers";
 import { OptionI } from "../../forms/interfaces";
 import { TransactionRateI } from "../../table/interfaces/index";
-import { useMutation } from "react-query";
-import { api } from "../../../api";
-import { useTransactions } from '../../../hooks/transactions/useTransactions';
+import { useTransactions } from "../../../hooks/transactions/useTransactions";
 
 export const useExchangeCurrency = () => {
   const [currencyFrom, setCurrencyFrom] = useState<OptionI>(initialOption);
   const [currencyTo, setCurrencyTo] = useState<OptionI>(initialOption);
   const [amountFrom, setAmountFrom] = useState("");
   const [amountTo, setAmountTo] = useState("0");
-  const [isValidated, setIsValidated] = useState(false);
-  const { dispatch } = useHistoryReducer();
+  const [isValid, setIsValid] = useState(false);
   const { createTransaction } = useTransactions();
-
   const { rates: apiRates } = useRates();
+  const { isLoading, isSuccess } = createTransaction;
 
   // Get the rates from custom hook
   const getRate = (
@@ -89,6 +85,7 @@ export const useExchangeCurrency = () => {
     }
   };
 
+  // Handle exchange from currency
   const handleExchangeFromCurrencies = () => {
     if (amountFrom && amountTo) {
       const rate = getRate(currencyFrom.value, currencyTo.value, apiRates);
@@ -107,30 +104,25 @@ export const useExchangeCurrency = () => {
     value: React.ChangeEvent<HTMLInputElement>
   ) => {
     handleExchangeByAmountFrom(value);
-    setIsValidated(false);
   };
 
   // Handle total amount input change
   const handleAmountToChange = (value: React.ChangeEvent<HTMLInputElement>) => {
     handleExchangeByAmountTo(value);
-    setIsValidated(false);
   };
 
   // Handle crypto change
   const handleCurrencyFromChange = (option: OptionI) => {
     setCurrencyFrom(option);
-    setIsValidated(false);
   };
 
   // Handle currency change
   const handleCurrencyToChange = (option: OptionI) => {
     setCurrencyTo(option);
-    setIsValidated(false);
   };
 
   // Handle transaction submit
   const handleSaveTransaction = async () => {
-    setIsValidated(true);
     const transaction = {
       amount: amountFrom,
       currency_rate: "",
@@ -141,14 +133,23 @@ export const useExchangeCurrency = () => {
       total_amount: amountTo,
       status: "LIVE"
     };
-    await createTransaction.mutateAsync(transaction);
-    
+    isValid && (await createTransaction.mutateAsync(transaction));
   };
 
   // Update the amount to when the currency to changes
   useEffect(() => {
     handleExchangeFromCurrencies();
   }, [currencyFrom, currencyTo]);
+
+  // Check if all values are valid before submitting
+  useEffect(() => {
+    setIsValid(() => {
+      if (amountFrom && currencyFrom.value !== "Select") {
+        return true;
+      }
+      return false;
+    });
+  }, [amountFrom, currencyFrom]);
 
   return {
     amountFrom,
@@ -160,6 +161,8 @@ export const useExchangeCurrency = () => {
     handleCurrencyFromChange,
     handleCurrencyToChange,
     handleSaveTransaction,
-    isValidated
+    isLoading,
+    isSuccess,
+    isValid
   };
 };

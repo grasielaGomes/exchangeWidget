@@ -77,6 +77,7 @@ export const useTransactions = () => {
 
   const queryClient = useQueryClient();
 
+  // Use mutation to update transactions
   const createTransaction = useMutation(
     async (transaction: ExchangeTransactionI) => {
       const response = await api.post("/api/transactions", {
@@ -84,6 +85,7 @@ export const useTransactions = () => {
       });
       return response.data.transactions;
     },
+    // Invalidate cache when transaction is created
     { onSuccess: () => queryClient.invalidateQueries("transactions") }
   );
 
