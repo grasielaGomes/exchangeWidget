@@ -5,16 +5,19 @@ import { TableRowMobile } from "./TableRowMobile";
 import { DropdowMenu } from "../forms/DropdowMenu";
 import { Sort } from "../../assets";
 import { TableRowDesktop } from "./TableRowDesktop";
-import { useHistoryTransactions } from "./hooks/useHistoryTransactions";
+import { useHistoryTable } from "./hooks/useHistoryTable";
 import { Pagination } from "../pagination/Pagination";
 import { SpinLoading } from "../loadings/SpinLoading";
 import { CustomText } from "../typography";
+import { useTransactions } from "../../hooks/transactions/useTransactions";
 
 const styles = {
   container: "px-6 py-12 w-full md:w-[1095px] md:px-0 md:mx-auto",
   fechingLoadingContainer: "flex gap-3 items-center",
-  dateContainer:
-    "relative flex justify-between items-end gap-4 mt-3 mb-5 md:mt-5 md:mb-[45px] md:justify-end md:w-fit",
+  dateContainer: (hasError: boolean) =>
+    `relative flex justify-between items-end gap-4 mt-3 ${
+      hasError ? "mb-8" : "mb-5"
+    } md:mt-5 md:mb-[45px] md:justify-end md:w-fit`,
   filterSelector: "hidden md:block",
   tableContainerMobile: "grid gap-3 md:hidden",
   tableContainerDesktop: "hidden md:block",
@@ -65,20 +68,19 @@ const texts = {
 };
 
 export const HistoryTable = () => {
+  const { isLoading, isFetching, error } = useTransactions();
   const {
     dateError,
     endDate,
-    error,
-    filterTransactions,
-    handleType,
+    filterTransactionsByDate,
+    filterTransactionsByType,
     historyList,
-    isFetching,
-    isLoading,
     isMobile,
     startDate,
     setStartDate,
-    setEndDate
-  } = useHistoryTransactions();
+    setEndDate,
+    sortTransactions
+  } = useHistoryTable();
 
   return (
     <section className={styles.container}>
@@ -86,7 +88,7 @@ export const HistoryTable = () => {
         <Heading>{texts.tableHead}</Heading>
         {!isLoading && isFetching && <SpinLoading />}
       </div>
-      <div className={styles.dateContainer}>
+      <div className={styles.dateContainer(dateError)}>
         <DatePicker
           label={
             isMobile
@@ -107,7 +109,7 @@ export const HistoryTable = () => {
         />
         <div className={styles.filterSelector}>
           <DropdowMenu
-            handleSelect={(option) => handleType(option.id)}
+            handleSelect={(option) => filterTransactionsByType(option.id)}
             initialOption={texts.filterSelect.options[0]}
             label={texts.filterSelect.label}
             options={texts.filterSelect.options}
@@ -115,7 +117,7 @@ export const HistoryTable = () => {
         </div>
         <FullButton
           variant="secondary"
-          handleClick={() => filterTransactions()}
+          handleClick={() => filterTransactionsByDate()}
         >
           {texts.dateSelectors.filterButton}
         </FullButton>
@@ -145,7 +147,10 @@ export const HistoryTable = () => {
             <div className={styles.table.header}>
               {texts.table.columns.map((column, index) => (
                 <div key={column} className={styles.table.title}>
-                  <button className={styles.table.titleButton(index)}>
+                  <button
+                    className={styles.table.titleButton(index)}
+                    onClick={() => sortTransactions(column)}
+                  >
                     {index === 0 && (
                       <img src={Sort} alt={texts.table.sortIconAlt} />
                     )}

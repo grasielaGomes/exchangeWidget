@@ -7,7 +7,7 @@ import { DatePickerSelector } from "./DatePickerSelector";
 import { DatePickerI } from "./interfaces";
 import { CustomText } from "../typography/CustomText";
 import { Calendar } from "../../assets";
-import useWindowDimensions from "../../hooks/useWindowDimensions";
+import useWindowDimensions from "../../hooks/utils/useWindowDimensions";
 
 const styles = {
   popover: "flex-1 relative",
