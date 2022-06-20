@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests on <Feedback /> should match with snapshot on success 1`] = `
+<div>
+  <div
+    class="z-50 fixed left-0 bottom-0 w-full flex items-center justify-center h-12 transition-opacity duration-200 ease-in-out opacity-0 bg-primary opacity-100"
+  >
+    <p
+      class="font-medium text-base leading-6 text-white"
+    >
+      Exchange submitted.
+    </p>
+  </div>
+</div>
+`;

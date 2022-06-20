@@ -64,5 +64,6 @@ https://react-query.tanstack.com/
 **Client HTTP**
 https://axios-http.com/ptbr/docs/intro
 
-**Testing framework**
+**Testing**
 https://jestjs.io/pt-BR/
+https://testing-library.com/
