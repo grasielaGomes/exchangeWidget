@@ -1,5 +1,4 @@
 import { QueryClientProvider, QueryClient } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 
 import { ExchangeHeader } from "../components/header/ExchangeHeader"
 import { HistoryTable } from "../components/table/HistoryTable";
@@ -13,7 +12,6 @@ export default () => {
     <QueryClientProvider client={queryClient}>
       <ExchangeHeader />
       <HistoryTable />
-      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 }
