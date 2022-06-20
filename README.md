@@ -2,7 +2,7 @@
 This widget simulates a application to exchange crypto for several currencies. The application consists of a React front-end client.
 
 ## Layout
-![layout](https://github.com/grasielaGomes/recurring-expenses/blob/main/src/images/main.jpg?raw=true)
+![layout](src/assets/exchange.jpg)
 
 ## Tecnologies
 ![Typescript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white "Typescript")

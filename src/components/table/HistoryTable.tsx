@@ -79,7 +79,6 @@ export const HistoryTable = () => {
     handleTransactionsPerPage,
     handleTypeChange,
     historyList,
-    initialList,
     isMobile,
     startDate,
     setStartDate,
@@ -145,7 +144,7 @@ export const HistoryTable = () => {
       ) : (
         <div>
           <div className={styles.tableContainerMobile}>
-            {initialList?.map((transaction) => (
+            {historyList?.map((transaction) => (
               <div key={transaction.id}>
                 <TableRowMobile transaction={transaction} />
               </div>
@@ -177,7 +176,10 @@ export const HistoryTable = () => {
               </div>
             ))}
           </div>
-          <Pagination handlePage={handleTransactionsPerPage} list={filteredList} />
+          <Pagination
+            handlePage={handleTransactionsPerPage}
+            list={filteredList}
+          />
         </div>
       )}
     </section>

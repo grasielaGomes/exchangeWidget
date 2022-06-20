@@ -36,7 +36,7 @@ export const DropdowMenu = ({
       currencyIcon: "hidden md:inline"
     },
     optionsContainer:
-      "z-50 rounded-lg bg-white shadow-3xl focus:outline-none focus:border-primary focus:ring-primary overflow-hidden fixed bottom-0 left-0 w-full transform transition-all md:absolute md:top-[68px] md:h-fit",
+      "z-40 rounded-lg bg-white shadow-3xl focus:outline-none focus:border-primary focus:ring-primary overflow-hidden fixed bottom-0 left-0 w-full transform transition-all md:absolute md:top-[68px] md:h-fit",
     option: {
       container: `${animation} flex gap-2 py-3 px-6 hover:bg-neutral2`,
       label: "text-fontSecondary text-base font-medium"

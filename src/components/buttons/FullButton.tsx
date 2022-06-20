@@ -10,7 +10,9 @@ export const FullButton = ({
   variant = "primary"
 }: FullButtonI) => {
   const buttonAnimation = "transition-colors duration-200 ease-in-out";
-  const buttonBase = `py-3 px-6 rounded-lg text-base leading-4 ${isFull ? "w-full" : ""}`;
+  const buttonBase = `flex items-center justify-center py-3 px-6 rounded-lg text-base leading-4 ${
+    isFull ? "w-full" : ""
+  }`;
 
   const fullButtonVariants = {
     primary: `${buttonAnimation} ${buttonBase} font-semibold bg-primary border border-transparent text-white hover:bg-secondary disabled:bg-neutral disabled:hover:bg-neutral`,

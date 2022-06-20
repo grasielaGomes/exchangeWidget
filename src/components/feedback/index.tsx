@@ -9,7 +9,7 @@ const texts = {
 
 const styles = {
   successFeedback: (isSuccess: boolean, showFeedback: boolean) =>
-    `fixed left-0 bottom-0 w-full flex items-center justify-center h-12 transition-opacity duration-200 ease-in-out opacity-0 ${
+    `z-50 fixed left-0 bottom-0 w-full flex items-center justify-center h-12 transition-opacity duration-200 ease-in-out opacity-0 ${
       isSuccess ? "bg-primary" : "bg-pink-500"
     } ${(showFeedback && "opacity-100") || "opacity-0"}`
 };

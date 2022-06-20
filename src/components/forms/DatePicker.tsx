@@ -18,7 +18,7 @@ const styles = {
   label: "mb-1 md:text-neutral3",
   selectButtonContent: "flex items-center justify-around",
   panel:
-    "fixed bottom-4 left-[1rem] right-[1rem] z-50 md:absolute md:top-[4.6rem] md:left-0",
+    "fixed bottom-4 left-[1rem] right-[1rem] z-40 md:absolute md:top-[4.6rem] md:left-0",
   calendarContainer: "w-full bg-white shadow-3xl rounded-lg pb-6 md:w-[22rem]",
   error: "mt-1 pl-2 text-pink-500 md:-mb-5"
 };
