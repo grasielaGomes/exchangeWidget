@@ -12,9 +12,6 @@ This widget simulates a application to exchange crypto for several currencies. T
 ## Live Project
 https://exchange-widget.vercel.app
 
-## Docker image
-https://exchange-widget.vercel.app
-
 ## How to use
 **Install NodeJs packages**
 
