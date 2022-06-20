@@ -71,8 +71,9 @@ export const useTransactions = () => {
     isFetching,
     error
   } = useQuery("transactions", mapHistoryTransactions, {
-    // Define after how much time the cache should be considered stale
-    staleTime: 1000 * 60
+    // Refetch data every 1 minute in background
+    refetchInterval: 1000 * 60,
+    refetchIntervalInBackground: true
   });
 
   const queryClient = useQueryClient();

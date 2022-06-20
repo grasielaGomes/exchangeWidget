@@ -21,5 +21,6 @@ export interface TransactionRateI {
 
 export interface TableRowI {
   index?: number;
+  isFetching?: boolean;
   transaction: ExchangeTransactionI;
 }

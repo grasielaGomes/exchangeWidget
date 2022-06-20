@@ -6,14 +6,14 @@ import useWindowDimensions from "../../../hooks/utils/useWindowDimensions";
 import { useHistoryReducer } from "../../../hooks/historyReducer/useHistoryReducer";
 
 export const useHistoryTable = () => {
+  const { mappedTransactions } = useTransactions();
+  const { historyList, dispatch } = useHistoryReducer();
+
   const [startDate, setStartDate] = useState(dayjs().subtract(7, "day"));
   const [endDate, setEndDate] = useState(dayjs());
   const [dateError, setDateError] = useState(false);
   const { width } = useWindowDimensions();
   const isMobile = width < 768;
-
-  const { mappedTransactions } = useTransactions();
-  const { historyList, dispatch } = useHistoryReducer();
 
   // Update history list
   useEffect(() => {
@@ -58,11 +58,17 @@ export const useHistoryTable = () => {
     columns[column as keyof typeof columns]();
   };
 
+  // Handle pagination change
+  const handleTransactionsPerPage = (value: number) => {
+    dispatch({ type: "CHANGE_PAGINATION", payload: { value } });
+  };
+
   return {
     dateError,
     endDate,
     filterTransactionsByDate,
     filterTransactionsByType,
+    handleTransactionsPerPage,
     historyList,
     isMobile,
     startDate,

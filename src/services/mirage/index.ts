@@ -10,7 +10,6 @@ const status = ["LIVE", "EXCHANGED"];
 
 export const makeServer = () => {
   const server = createServer({
-
     // Set serializer type
     serializers: {
       application: RestSerializer
@@ -48,7 +47,7 @@ export const makeServer = () => {
 
     // Creates db seeds
     seeds(server) {
-      server.createList("transaction", 5);
+      server.createList("transaction", 30);
       server.createList("rate", 4);
     },
 
@@ -61,7 +60,6 @@ export const makeServer = () => {
 
       // Define routes
       this.get("/transactions", (schema) => {
-        
         // Sort transactions by date
         return schema.all("transaction").sort((a, b) => {
           return dayjs(b.date).diff(dayjs(a.date));

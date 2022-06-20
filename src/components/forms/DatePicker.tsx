@@ -51,9 +51,7 @@ export const DatePicker = ({
     ? selectedDate.format("DD/MM")
     : texts.select;
 
-  const desktopDate = isSelected
-    ? selectedDate.format("DD/MM/YYYY")
-    : texts.select;
+  const desktopDate = selectedDate.format("DD/MM/YYYY");
 
   return (
     <Popover className={styles.popover}>

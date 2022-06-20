@@ -74,6 +74,7 @@ export const HistoryTable = () => {
     endDate,
     filterTransactionsByDate,
     filterTransactionsByType,
+    handleTransactionsPerPage,
     historyList,
     isMobile,
     startDate,
@@ -109,7 +110,9 @@ export const HistoryTable = () => {
         />
         <div className={styles.filterSelector}>
           <DropdowMenu
-            handleSelect={(option) => filterTransactionsByType(option.id)}
+            handleSelect={(option) =>
+              filterTransactionsByType(option.id.toString())
+            }
             initialOption={texts.filterSelect.options[0]}
             label={texts.filterSelect.label}
             options={texts.filterSelect.options}
@@ -161,11 +164,15 @@ export const HistoryTable = () => {
             </div>
             {historyList?.map((transaction, index) => (
               <div key={transaction.id}>
-                <TableRowDesktop index={index} transaction={transaction} />
+                <TableRowDesktop
+                  index={index}
+                  isFetching={isFetching}
+                  transaction={transaction}
+                />
               </div>
             ))}
           </div>
-          <Pagination pagesNumber={1} />
+          <Pagination handlePage={handleTransactionsPerPage} />
         </div>
       )}
     </section>

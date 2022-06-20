@@ -1,6 +1,7 @@
 import dayjs from "dayjs";
 import { CustomText } from "../typography";
 import { TableRowI } from "./interfaces";
+import { SpinLoading } from "../loadings/SpinLoading";
 
 interface CellI {
   isFirst?: boolean;
@@ -20,11 +21,13 @@ const styles = {
       index % 2 === 0 ? "bg-white" : "bg-neutral2"
     } hover:border-dark`,
   cell: ({ isFirst = false, isEven = true }: CellI) =>
-    `pl-2 ${isEven ? "w-[210px]" : "w-[154px]"} ${!isFirst && "border-l-tiny"}`
+    `pl-2 ${isEven ? "w-[210px]" : "w-[154px]"} ${!isFirst && "border-l-tiny"}`,
+  loadingContainer: "flex justify-start pl-2"
 };
 
 export const TableRowDesktop = ({
   index = 0,
+  isFetching = false,
   transaction: { amount, date, from, to, totalAmount, status }
 }: TableRowI) => {
   const formattedDate = dayjs(date).format("DD/MM/YYYY HH:mm");
@@ -45,7 +48,13 @@ export const TableRowDesktop = ({
         <CustomText variant="small">{to}</CustomText>
       </div>
       <div className={styles.cell({ isEven: true })}>
-        <CustomText variant="small">{totalAmount}</CustomText>
+        {isFetching && isLive ? (
+          <div className={styles.loadingContainer}>
+            <SpinLoading />
+          </div>
+        ) : (
+          <CustomText variant="small">{totalAmount || ""}</CustomText>
+        )}
       </div>
       <div className={styles.cell({ isEven: false })}>
         <CustomText variant="small" isBold>

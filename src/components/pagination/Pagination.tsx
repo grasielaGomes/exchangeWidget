@@ -1,36 +1,33 @@
 import { TextButton } from "../buttons/TextButton";
 import { NextArrow } from "../icons/NextArrow";
-import { useEffect, useState } from "react";
-import { getNumbers } from "./utils";
+import { usePagination } from "./hooks/usePagination";
+import { useEffect } from "react";
+import { PaginationI } from "./interfaces";
 
 const styles = {
   container: "mt-7 gap-1 hidden md:flex",
   arrowIcon: "fill-dark"
 };
 
-export const Pagination = ({ pagesNumber = 1 }: { pagesNumber: number }) => {
-  const [currentPage, setCurrentPage] = useState<string>("1");
-  const [showPages, setShowPages] = useState<string[]>([]);
-  const [counter, setCounter] = useState<number>(3);
-  const isBigList = pagesNumber > 5;
-  const pages = getNumbers(pagesNumber);
+export const Pagination = ({ handlePage }: PaginationI) => {
+  const {
+    counter,
+    currentPage,
+    handleCurrentPage,
+    handleLastPage,
+    handleNextPage,
+    handlePlusButton,
+    isBigList,
+    pages,
+    showPages
+  } = usePagination();
 
   useEffect(() => {
-    setShowPages(() => {
-      if (isBigList) {
-        return pages.slice(0, 3);
-      } else {
-        return pages.slice(0, 5);
-      }
-    });
-  }, [pagesNumber]);
+    handlePage(Number(currentPage));
+  }, [currentPage]);
 
-  const handleNextPage = () => {
-    setCurrentPage((currentPage) => String(Number(currentPage) + 1));
-    if (Number(currentPage) >= showPages.length) {
-      setShowPages(pages.slice(0, showPages.length + 1));
-    }
-  };
+  const showNextButton =
+    isBigList && counter < pages.length && Number(currentPage) !== pages.length;
 
   return (
     <div className={styles.container}>
@@ -38,29 +35,18 @@ export const Pagination = ({ pagesNumber = 1 }: { pagesNumber: number }) => {
         <TextButton
           key={page}
           handleClick={() => {
-            setCurrentPage(page);
+            handleCurrentPage(page);
           }}
           isActive={page === currentPage}
         >
           {page}
         </TextButton>
       ))}
-      {isBigList && counter < pages.length && (
+      {showNextButton && (
         <>
+          <TextButton handleClick={handlePlusButton}>...</TextButton>
           <TextButton
-            handleClick={() => {
-              setCounter(counter + 3);
-              setShowPages(() => {
-                return pages.slice(0, counter + 3);
-              });
-            }}
-          >
-            ...
-          </TextButton>
-          <TextButton
-            handleClick={() => {
-              setCurrentPage(pages.slice(-1)[0]);
-            }}
+            handleClick={handleLastPage}
             isActive={pages.slice(-1)[0] === currentPage}
           >
             {pages.slice(-1)[0]}

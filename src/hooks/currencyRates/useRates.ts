@@ -10,7 +10,11 @@ export const useRates = () => {
   }
 
   // Get rates from API using react-query to cache the data
-  const { data: rates } = useQuery("rates", getRates);
+  const { data: rates } = useQuery("rates", getRates, {
+    // Refetch data every 1 minute in background
+    refetchInterval: 1000 * 60,
+    refetchIntervalInBackground: true
+  });
 
   return { getRates, rates };
 };
