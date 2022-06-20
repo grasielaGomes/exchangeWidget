@@ -9,13 +9,14 @@ const styles = {
   arrowIcon: "fill-dark"
 };
 
-export const Pagination = ({ handlePage }: PaginationI) => {
+export const Pagination = ({ handlePage, list }: PaginationI) => {
   const {
     counter,
     currentPage,
     handleCurrentPage,
     handleLastPage,
     handleNextPage,
+    handleNumberPages,
     handlePlusButton,
     isBigList,
     pages,
@@ -26,8 +27,10 @@ export const Pagination = ({ handlePage }: PaginationI) => {
     handlePage(Number(currentPage));
   }, [currentPage]);
 
-  const showNextButton =
-    isBigList && counter < pages.length && Number(currentPage) !== pages.length;
+  // Set list of strings of pages
+  useEffect(() => {
+    handleNumberPages(list);
+  }, [list]);
 
   return (
     <div className={styles.container}>
@@ -42,15 +45,18 @@ export const Pagination = ({ handlePage }: PaginationI) => {
           {page}
         </TextButton>
       ))}
-      {showNextButton && (
+      {counter < pages.length - 1 && (
+        <TextButton handleClick={handlePlusButton}>...</TextButton>
+      )}
+      {Number(currentPage) !== pages.length && counter < pages.length && (
         <>
-          <TextButton handleClick={handlePlusButton}>...</TextButton>
           <TextButton
             handleClick={handleLastPage}
             isActive={pages.slice(-1)[0] === currentPage}
           >
             {pages.slice(-1)[0]}
           </TextButton>
+
           <TextButton handleClick={handleNextPage} variant="icon">
             <span>Next</span>
             <NextArrow className={styles.arrowIcon} />

@@ -7,10 +7,11 @@ import { useHistoryReducer } from "../../../hooks/historyReducer/useHistoryReduc
 
 export const useHistoryTable = () => {
   const { mappedTransactions } = useTransactions();
-  const { historyList, dispatch } = useHistoryReducer();
+  const { historyList, initialList, filteredList, dispatch } = useHistoryReducer();
 
   const [startDate, setStartDate] = useState(dayjs().subtract(7, "day"));
   const [endDate, setEndDate] = useState(dayjs());
+  const [type, setType] = useState("ALL");
   const [dateError, setDateError] = useState(false);
   const { width } = useWindowDimensions();
   const isMobile = width < 768;
@@ -23,12 +24,17 @@ export const useHistoryTable = () => {
     });
   }, [mappedTransactions]);
 
+  // Handle type change
+  const handleTypeChange = (type: string) => {
+    setType(type);
+  };
+
   // Get filtered transactions by date
   const filterTransactionsByDate = () => {
     setDateError(false);
 
     if (dayjs(startDate).isBefore(endDate)) {
-      dispatch({ type: "FILTER_BY_DATE", payload: { startDate, endDate } });
+      dispatch({ type: "FILTER_BY_DATE", payload: { startDate, endDate, type } });
     } else {
       setDateError(true);
     }
@@ -66,10 +72,13 @@ export const useHistoryTable = () => {
   return {
     dateError,
     endDate,
+    filteredList,
     filterTransactionsByDate,
     filterTransactionsByType,
     handleTransactionsPerPage,
+    handleTypeChange,
     historyList,
+    initialList,
     isMobile,
     startDate,
     setStartDate,

@@ -10,6 +10,7 @@ import { Pagination } from "../pagination/Pagination";
 import { SpinLoading } from "../loadings/SpinLoading";
 import { CustomText } from "../typography";
 import { useTransactions } from "../../hooks/transactions/useTransactions";
+import { Feedback } from "../feedback";
 
 const styles = {
   container: "px-6 py-12 w-full md:w-[1095px] md:px-0 md:mx-auto",
@@ -20,7 +21,7 @@ const styles = {
     } md:mt-5 md:mb-[45px] md:justify-end md:w-fit`,
   filterSelector: "hidden md:block",
   tableContainerMobile: "grid gap-3 md:hidden",
-  tableContainerDesktop: "hidden md:block",
+  tableContainerDesktop: "hidden h-[19rem] md:block",
   table: {
     header: "flex py-1 bg-neutral2 h-[30px] rounded",
     title: "text-sm font-normal text-dark text-left",
@@ -72,10 +73,13 @@ export const HistoryTable = () => {
   const {
     dateError,
     endDate,
+    filteredList,
     filterTransactionsByDate,
     filterTransactionsByType,
     handleTransactionsPerPage,
+    handleTypeChange,
     historyList,
+    initialList,
     isMobile,
     startDate,
     setStartDate,
@@ -110,9 +114,10 @@ export const HistoryTable = () => {
         />
         <div className={styles.filterSelector}>
           <DropdowMenu
-            handleSelect={(option) =>
-              filterTransactionsByType(option.id.toString())
-            }
+            handleSelect={(option) => {
+              handleTypeChange(option.id.toString());
+              filterTransactionsByType(option.id.toString());
+            }}
             initialOption={texts.filterSelect.options[0]}
             label={texts.filterSelect.label}
             options={texts.filterSelect.options}
@@ -136,11 +141,11 @@ export const HistoryTable = () => {
           <SpinLoading />
         </div>
       ) : error ? (
-        <CustomText>Server Error</CustomText>
+        <Feedback isSuccess={!error} />
       ) : (
         <div>
           <div className={styles.tableContainerMobile}>
-            {historyList?.map((transaction) => (
+            {initialList?.map((transaction) => (
               <div key={transaction.id}>
                 <TableRowMobile transaction={transaction} />
               </div>
@@ -172,7 +177,7 @@ export const HistoryTable = () => {
               </div>
             ))}
           </div>
-          <Pagination handlePage={handleTransactionsPerPage} />
+          <Pagination handlePage={handleTransactionsPerPage} list={filteredList} />
         </div>
       )}
     </section>

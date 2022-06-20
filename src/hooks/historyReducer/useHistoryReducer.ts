@@ -1,19 +1,26 @@
 import dayjs, { Dayjs } from "dayjs";
 import { useReducer } from "react";
 import { ExchangeTransactionI } from "../../components/table/interfaces";
+import {
+  calcEndTransaction,
+  calcStartTransaction,
+  filterTransactions
+} from "../../utils";
 
 export const useHistoryReducer = () => {
   interface ReducerTransactionsI {
+    filteredList: ExchangeTransactionI[];
     historyList: ExchangeTransactionI[];
-    previousList: ExchangeTransactionI[];
+    initialList: ExchangeTransactionI[];
     start: number;
     end: number;
   }
 
   // Reducer initial state
   const INITIAL_STATE: ReducerTransactionsI = {
+    filteredList: [],
     historyList: [],
-    previousList: [],
+    initialList: [],
     start: 0,
     end: 5
   };
@@ -29,6 +36,7 @@ export const useHistoryReducer = () => {
         payload: {
           startDate: Date | Dayjs | string;
           endDate: Date | Dayjs | string;
+          type: string;
         };
       }
     | { type: "FILTER_BY_LIVE" }
@@ -47,60 +55,68 @@ export const useHistoryReducer = () => {
     state: ReducerTransactionsI,
     action: TransactionAction
   ): ReducerTransactionsI => {
-    const { previousList, start, end } = state;
+    const { initialList, filteredList, start, end } = state;
     switch (action.type) {
       case "CHANGE_PAGINATION":
         return {
           ...state,
-          start: action.payload.value * 5 - 5,
-          end: action.payload.value * 5,
-          historyList: previousList.slice(start, end)
+          start: calcStartTransaction(action.payload.value),
+          end: calcEndTransaction(action.payload.value),
+          historyList: filteredList.slice(
+            calcStartTransaction(action.payload.value),
+            calcEndTransaction(action.payload.value)
+          )
         };
       case "FETCH_HISTORY":
         return {
           ...state,
-          previousList: action.fetchedHistory,
+          filteredList: action.fetchedHistory,
+          initialList: action.fetchedHistory,
           historyList: action.fetchedHistory.slice(start, end)
         };
       case "FILTER_BY_DATE":
         return {
           ...state,
-          historyList: previousList
-            .filter((t) => {
-              return (
-                dayjs(t.date) >= dayjs(action.payload.startDate) &&
-                dayjs(t.date) <= dayjs(action.payload.endDate)
-              );
-            })
-            .slice(start, end)
+          filteredList: filterTransactions({
+            transactions: initialList,
+            startDate: action.payload.startDate,
+            endDate: action.payload.endDate,
+            type: action.payload.type
+          }),
+          historyList: filterTransactions({
+            transactions: initialList,
+            startDate: action.payload.startDate,
+            endDate: action.payload.endDate,
+            type: action.payload.type
+          }).slice(start, end)
         };
       case "FILTER_BY_LIVE":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .filter((t) => {
               return t.status === "LIVE";
             })
-            .slice(start, end)
+            .slice(0, 5)
         };
       case "FILTER_BY_EXCHANGED":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .filter((t) => {
               return t.status === "EXCHANGED";
             })
-            .slice(start, end)
+            .slice(0, 5)
         };
       case "FILTER_BY_ALL":
         return {
           ...state,
-          historyList: previousList.slice(start, end)
+          historyList: filteredList.slice(0, 5)
         };
       case "SORT_BY_DATE":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return dayjs(b.date).diff(dayjs(a.date));
             })
@@ -109,7 +125,7 @@ export const useHistoryReducer = () => {
       case "SORT_BY_CURRENCY_FROM":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return a.from.localeCompare(b.from);
             })
@@ -118,7 +134,7 @@ export const useHistoryReducer = () => {
       case "SORT_BY_AMOUNT_1":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return (
                 Number(a.amount.replace(/\D/g, "")) -
@@ -130,7 +146,7 @@ export const useHistoryReducer = () => {
       case "SORT_BY_CURRENCY_TO":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return a.to.localeCompare(b.to);
             })
@@ -139,7 +155,7 @@ export const useHistoryReducer = () => {
       case "SORT_BY_AMOUNT_2":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return (
                 Number(a.totalAmount?.replace(/\D/g, "")) -
@@ -151,7 +167,7 @@ export const useHistoryReducer = () => {
       case "SORT_BY_TYPE":
         return {
           ...state,
-          historyList: previousList
+          historyList: filteredList
             .sort((a, b) => {
               return a.status.localeCompare(b.status);
             })
@@ -162,9 +178,7 @@ export const useHistoryReducer = () => {
     }
   };
 
-  const [{ historyList, previousList, start, end }, dispatch] = useReducer(
-    transactionsReducer,
-    INITIAL_STATE
-  );
-  return { historyList, previousList, start, end, dispatch };
+  const [{ historyList, filteredList, initialList, start, end }, dispatch] =
+    useReducer(transactionsReducer, INITIAL_STATE);
+  return { historyList, filteredList, initialList, start, end, dispatch };
 };

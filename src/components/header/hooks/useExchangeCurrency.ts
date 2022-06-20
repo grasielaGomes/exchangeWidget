@@ -125,13 +125,13 @@ export const useExchangeCurrency = () => {
   const handleSaveTransaction = async () => {
     const transaction = {
       amount: amountFrom,
-      currency_rate: "",
+      currencyRate: "",
       date: dayjs(),
       from: currencyFrom.value,
       id: faker.finance.bitcoinAddress(),
       to: currencyTo.value,
-      total_amount: amountTo,
-      status: "LIVE"
+      totalAmount: amountTo,
+      status: "EXCHANGED"
     };
     isValid && (await createTransaction.mutateAsync(transaction));
   };

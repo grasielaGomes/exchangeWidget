@@ -19,7 +19,7 @@ export const Feedback = ({
   isSuccess,
   successMessage = texts.successMessage
 }: FeedbackI) => {
-  const [showFeedback, setShowFeedback] = useState(isSuccess);
+  const [showFeedback, setShowFeedback] = useState(true);
 
   useLayoutEffect(() => {
     setTimeout(() => {
