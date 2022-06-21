@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tests on <Pagination /> should match with snapshot 1`] = `
+<div>
+  <div
+    class="mt-7 gap-1 hidden md:flex"
+  >
+    <button
+      class="transition-colors duration-200 ease-in-out rounded-lg bg-transparent text-base leading-4 underline-offset-1 disabled:bg-neutral disabled:hover:bg-neutral focus:outline-none focus:border focus:border-dark focus:ring-dark focus:ring-0 bg-dark text-white h-10 w-10"
+      type="button"
+    >
+      1
+    </button>
+  </div>
+</div>
+`;

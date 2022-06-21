@@ -18,7 +18,6 @@ export const Pagination = ({ handlePage, list }: PaginationI) => {
     handleNextPage,
     handleNumberPages,
     handlePlusButton,
-    isBigList,
     pages,
     showPages
   } = usePagination();

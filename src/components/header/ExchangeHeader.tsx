@@ -1,5 +1,5 @@
 import { FullButton } from "../buttons";
-import { DropdowMenu } from "../forms";
+import { DropdownMenu } from "../forms";
 import { cryptoOptions, currenciesOptions, countries } from "../forms/helpers";
 import { AmountInput } from "../forms/AmountInput";
 import { Heading } from "../typography";
@@ -54,7 +54,7 @@ export const ExchangeHeader = () => {
           <Heading variant="h1">{texts.header}</Heading>
         </div>
         <div className={styles.bodyContainer}>
-          <DropdowMenu
+          <DropdownMenu
             options={cryptoOptions}
             label={texts.from}
             handleSelect={(value) => handleCurrencyFromChange(value)}
@@ -66,7 +66,7 @@ export const ExchangeHeader = () => {
           <div className={styles.hiddenEqual}>
             <CustomText>=</CustomText>
           </div>
-          <DropdowMenu
+          <DropdownMenu
             handleSelect={(value) => handleCurrencyToChange(value)}
             label={texts.to}
             initialOption={initialOption}
@@ -98,9 +98,7 @@ export const ExchangeHeader = () => {
           </FullButton>
         </div>
       </div>
-      {isSuccess && !isLoading && (
-        <Feedback isSuccess={isSuccess} />
-      )}
+      {isSuccess && !isLoading && <Feedback isSuccess={isSuccess} />}
     </header>
   );
 };

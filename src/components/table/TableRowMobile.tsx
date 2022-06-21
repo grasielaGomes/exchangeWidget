@@ -59,13 +59,13 @@ export const TableRowMobile = ({
   const formattedDate = dayjs(date).format("DD/MM/YYYY @ HH.mm");
   const isLive = status === "LIVE";
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
-  function openModal() {
+  const openModal = () => {
     setIsOpen(true);
-  }
+  };
 
   return (
     <>

@@ -2,7 +2,7 @@ import { Heading } from "../typography/Heading";
 import { DatePicker } from "../forms/DatePicker";
 import { FullButton } from "../buttons";
 import { TableRowMobile } from "./TableRowMobile";
-import { DropdowMenu } from "../forms/DropdowMenu";
+import { DropdownMenu } from "../forms/DropdownMenu";
 import { Sort } from "../../assets";
 import { TableRowDesktop } from "./TableRowDesktop";
 import { useHistoryTable } from "./hooks/useHistoryTable";
@@ -112,7 +112,7 @@ export const HistoryTable = () => {
           onChange={setEndDate}
         />
         <div className={styles.filterSelector}>
-          <DropdowMenu
+          <DropdownMenu
             handleSelect={(option) => {
               handleTypeChange(option.id.toString());
               filterTransactionsByType(option.id.toString());

@@ -10,7 +10,7 @@ const texts = {
   errorMessage: "Please select a date",
 };
 
-export const DropdowMenu = ({
+export const DropdownMenu = ({
   handleSelect,
   initialOption,
   label,
