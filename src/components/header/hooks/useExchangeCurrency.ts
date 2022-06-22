@@ -136,7 +136,7 @@ export const useExchangeCurrency = () => {
     isValid && (await createTransaction.mutateAsync(transaction));
   };
 
-  // Update the amount to when the currency to changes
+  // Update the amount when the currency changes
   useEffect(() => {
     handleExchangeFromCurrencies();
   }, [currencyFrom, currencyTo]);

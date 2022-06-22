@@ -27,9 +27,13 @@ export const useTransactions = () => {
         const liveRate = rates?.find((rate) => rate.target === transaction.to)
           ?.rates[transaction.from];
 
+        // Get just totalAmount just digits and divided by 100
+        const cleanTotalAmount =
+          Number(transaction.totalAmount?.replace(/\D/g, "")) / 100;
+
         // Get total amount when exchanged
         const total =
-          Number(transaction.totalAmount) ||
+          cleanTotalAmount ||
           Number(transaction.amount) * Number(transaction.currencyRate);
 
         // Get live total amount
