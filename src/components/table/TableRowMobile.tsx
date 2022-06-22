@@ -9,23 +9,6 @@ import { Heading } from "../typography/Heading";
 import { Close } from "../../assets";
 import { currencyCode } from "../forms/helpers";
 
-const texts = {
-  modalTitle: "Exchange",
-  closeIconAlt: "Close icon",
-  content: {
-    date: "Date & Time",
-    status: "Status",
-    from: "From",
-    to: "To",
-    amount: "Amount",
-    total: "Total Amount"
-  },
-  types: {
-    exchanged: "Approved",
-    livePrice: "Live price"
-  }
-};
-
 const styles = {
   container:
     "relative w-full grid gap-2 text-left p-4 bg-[#F9F9F9] border border-[#EFF0F6] rounded-xl hover:border-primaryHover focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
@@ -49,6 +32,23 @@ const styles = {
         status === "EXCHANGED" ? "bg-primary" : "bg-secondary"
       }`,
     label: "text-neutral3"
+  }
+};
+
+const texts = {
+  modalTitle: "Exchange",
+  closeIconAlt: "Close icon",
+  content: {
+    date: "Date & Time",
+    status: "Status",
+    from: "From",
+    to: "To",
+    amount: "Amount",
+    total: "Total Amount"
+  },
+  types: {
+    exchanged: "Approved",
+    livePrice: "Live price"
   }
 };
 

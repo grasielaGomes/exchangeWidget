@@ -10,7 +10,7 @@ export const useTransactions = () => {
 
   // Get transactions from API using axios
   async function getTransactions(): Promise<ExchangeTransactionI[]> {
-    const { data } = await api.get("/api/transactions");
+    const { data } = await api.get("transactions");
     return data.transactions;
   }
 
@@ -18,7 +18,7 @@ export const useTransactions = () => {
   const mapHistoryTransactions = async () => {
     const transactions = await getTransactions();
     const rates = await getRates();
-    // Map transactions to exchange transactions
+
     const transactionsMapped: ExchangeTransactionI[] = transactions.map(
       (transaction: ExchangeTransactionI) => {
         const isExchanged = transaction.status === "EXCHANGED";
@@ -27,7 +27,7 @@ export const useTransactions = () => {
         const liveRate = rates?.find((rate) => rate.target === transaction.to)
           ?.rates[transaction.from];
 
-        // Get just totalAmount just digits and divided by 100
+        // Get just digits and divided by 100 totalAmount
         const cleanTotalAmount =
           Number(transaction.totalAmount?.replace(/\D/g, "")) / 100;
 
@@ -86,7 +86,7 @@ export const useTransactions = () => {
   // Use mutation to update transactions
   const createTransaction = useMutation(
     async (transaction: ExchangeTransactionI) => {
-      const response = await api.post("/api/transactions", {
+      const response = await api.post("transactions", {
         transaction
       });
       return response.data.transactions;

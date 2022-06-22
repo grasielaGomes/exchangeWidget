@@ -4,10 +4,30 @@ import { ArrowDown } from "../../assets";
 import { CustomText } from "../typography";
 import { DropdowMenuI } from "./interfaces";
 
+const animation = "transition-colors duration-200 ease-in-out";
+
+const styles = {
+  container: "flex flex-col relative",
+  label: "mb-1 ml-1",
+  buttonContainer:
+    "bg-white text-sm leading-5 border rounded-lg border-neutral px-4 h-11 min-w-[180px] hover:border-primaryHover focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
+  button: {
+    content: "flex justify-between gap-4",
+    selectedLabel: "flex items-center gap-2",
+    currencyIcon: "hidden md:inline"
+  },
+  optionsContainer:
+    "z-40 rounded-lg bg-white shadow-3xl focus:outline-none focus:border-primary focus:ring-primary overflow-hidden fixed bottom-0 left-0 w-full transform transition-all md:absolute md:top-[68px] md:h-fit",
+  option: {
+    container: `${animation} flex gap-2 py-3 px-6 hover:bg-neutral2`,
+    label: "text-fontSecondary text-base font-medium"
+  }
+};
+
 const texts = {
   cryptoAlt: "crypto icon",
   arrowAlt: "dropdown menu down arrow",
-  errorMessage: "Please select a date",
+  errorMessage: "Please select a date"
 };
 
 export const DropdownMenu = ({
@@ -22,26 +42,6 @@ export const DropdownMenu = ({
 
   const selectedIcon = () =>
     options.find((option) => option.value === currentOption)?.icon;
-
-  const animation = "transition-colors duration-200 ease-in-out";
-
-  const styles = {
-    container: "flex flex-col relative",
-    label: "mb-1 ml-1",
-    buttonContainer:
-      "bg-white text-sm leading-5 border rounded-lg border-neutral px-4 h-11 min-w-[180px] hover:border-primaryHover focus:outline-none focus:border-primary focus:ring-primary focus:ring-0",
-    button: {
-      content: "flex justify-between gap-4",
-      selectedLabel: "flex items-center gap-2",
-      currencyIcon: "hidden md:inline"
-    },
-    optionsContainer:
-      "z-40 rounded-lg bg-white shadow-3xl focus:outline-none focus:border-primary focus:ring-primary overflow-hidden fixed bottom-0 left-0 w-full transform transition-all md:absolute md:top-[68px] md:h-fit",
-    option: {
-      container: `${animation} flex gap-2 py-3 px-6 hover:bg-neutral2`,
-      label: "text-fontSecondary text-base font-medium"
-    },
-  };
 
   return (
     <div className={styles.container}>

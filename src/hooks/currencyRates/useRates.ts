@@ -6,7 +6,7 @@ export const useRates = () => {
 
   // Get rates from API using axios
   async function getRates(): Promise<TransactionRateI[]> {
-    const { data } = await api.get("/api/rates");
+    const { data } = await api.get("rates");
     return data.rates;
   }
 

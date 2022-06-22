@@ -8,13 +8,6 @@ interface CellI {
   isEven?: boolean;
 }
 
-const texts = {
-  types: {
-    exchanged: "Exchanged",
-    livePrice: "Live price"
-  }
-};
-
 const styles = {
   container: (index: number) =>
     `flex items-center py-4  rounded border border-transparent transition-all ease-out duration-200 ${
@@ -23,6 +16,13 @@ const styles = {
   cell: ({ isFirst = false, isEven = true }: CellI) =>
     `pl-2 ${isEven ? "w-[210px]" : "w-[154px]"} ${!isFirst && "border-l-tiny"}`,
   loadingContainer: "flex justify-start pl-2"
+};
+
+const texts = {
+  types: {
+    exchanged: "Exchanged",
+    livePrice: "Live price"
+  }
 };
 
 export const TableRowDesktop = ({
