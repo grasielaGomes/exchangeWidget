@@ -12,8 +12,6 @@ This widget simulates a application to exchange crypto for several currencies. T
 ## Live Project
 https://exchange-widget.vercel.app
 
-## Docker image
-https://hub.docker.com/r/grasielagomes/exchange-widget
 
 ## How to use
 **Install NodeJs packages**
@@ -32,9 +30,6 @@ https://hub.docker.com/r/grasielagomes/exchange-widget
 
     $ yarn build
 
-**Pull docker image**
-
-    $ docker pull grasielagomes/exchange-widget
 
 ## Referencies
 **Custom date picker example**
